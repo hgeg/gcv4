@@ -1,0 +1,123 @@
+<!doctype html>
+<html>
+<head>
+<title>Create blueprint</title>
+<!-- Created with an unregistered copy of Dynamic HTML WYSIWYG Editor -->
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+
+<meta http-equiv="Content-Style-Type" content="text/css">
+<script language="javascript" type="text/javascript">
+<!--
+var isNS=document.layers?true:false;
+var isIE=(document.all!=null)||(navigator.userAgent.indexOf('MSIE')!=-1);
+var isDom2=document.getElementById;
+var fVers=parseFloat(navigator.appVersion);
+if (!isDom2 && ((isNS && fVers<4)||(isIE && fVers<4)))
+    alert("Your browser is very old. Please upgrade it if you want to see this page correctly.");
+
+//-->
+</script>
+<script language="javascript" type="text/javascript" src="http://gcv4.s3.amazonaws.com/files/script/dhwe4x.js"></script>
+
+
+<link rel="stylesheet" type="text/css" href="http://gcv4.s3.amazonaws.com/files/style/item editor.css">
+
+</head>
+<body text="#000000" bgcolor="#FFFFFF" link="#0000FF" alink="#FF0000" vlink="#800080">
+<span class="verdana100FFFFFFtb" style="position:absolute;top:10px;left:8px;">Blueprint Editor:</span>
+<form id="Form1" name="Form1" style="position: absolute; left: 0px; top: 27px;" action="/index/blueprint/save/" method="post">
+
+<div id="ldheLabel2" style="position: absolute; left: 10px; top: 8px; width: 76px; height: 304px; text-align: justify;" align="left">
+
+<div id="ldhename" style="position: absolute; left: 10px; top: 4px;" align="left">
+<span class="verdana100FFFFFFtb">Name:</span>
+<input type="text" id="name" name="name" style="width: 161px; height: 16px;" value="" maxlength="30"></div>
+
+<div id="ldheeffects" style="position: absolute; left: 10px; top: 93px;" align="left">
+<span class="verdana100FFFFFFtb">Ingredient 1:</span>
+<select id="effects" name="i1" style="width: 225px; height: 20px;">
+{%for e in materials%}
+<option value="{{e.name}}">{{e.name}}</option>
+{%endfor%}
+</select><div style="position: absolute; left:230px; top:0px;">amount:<input type="text" name="c1" style="width: 20px; height: 12px;" value="0" maxlength="2"></div></div>
+
+<div id="ldheeffects" style="position: absolute; left: 10px; top: 136px;" align="left">
+<span class="verdana100FFFFFFtb">Ingredient 2:</span>
+<select id="effects" name="i2" style="width: 225px; height: 20px;">
+<option value="null">none</option>
+{%for e in materials%}
+<option value="{{e.name}}">{{e.name}}</option>
+{%endfor%}
+</select><div style="position: absolute; left:230px; top:0px;">amount:<input type="text" name="c2" style="width: 20px; height: 12px;" value="0" maxlength="2"></div></div>
+
+<div id="ldheeffects" style="position: absolute; left: 10px; top: 177px;" align="left">
+<span class="verdana100FFFFFFtb">Ingredient 3:</span>
+<select id="effects" name="i3" style="width: 225px; height: 20px;">
+<option value="null">none</option>
+{%for e in materials%}
+<option value="{{e.name}}">{{e.name}}</option>
+{%endfor%}
+</select> <div style="position: absolute; left:230px; top:0px;">amount:<input type="text" name="c3" style="width: 20px; height: 12px;" value="0" maxlength="2"></div></div>
+
+
+<div id="ldheeffects" style="position: absolute; left: 10px; top: 218px;" align="left">
+<span class="verdana100FFFFFFtb">Ingredient 4:</span>
+<select id="effects" name="i4" style="width: 225px; height: 20px;">
+<option value="null">none</option>
+{%for e in materials%}
+<option value="{{e.name}}">{{e.name}}</option>
+{%endfor%}
+</select><div style="position: absolute; left:230px; top:0px;">amount:<input type="text" name="c4" style="width: 20px; height: 12px;" value="0" maxlength="2"></div></div>
+
+<div id="ldheeffects" style="position: absolute; left: 10px; top: 260px;" align="left">
+<span class="verdana100FFFFFFtb">Ingredient 5:</span>
+<select id="effects" name="i5" style="width: 225px; height: 20px;">
+<option value="null">none</option>
+{%for e in materials%}
+<option value="{{e.name}}">{{e.name}}</option>
+{%endfor%}
+</select><div style="position: absolute; left:230px; top:0px;">amount:<input type="text" name="c5" style="width: 20px; height: 12px;" value="0" maxlength="2"></div></div>
+
+<div id="ldhepower" style="position: absolute; left: 182px; top: 308px;width:100px;" align="left">
+<span class="verdana100FFFFFFtb">Item:</span>
+<select id="effects" name="crafted" style="width: 225px; height: 20px;">
+{%for e in items%}
+<option value="{{e.name}}">{{e.name}}</option>
+{%endfor%}
+</select></div>
+
+<div id="ldhecategory" style="position: absolute; left: 10px; top: 48px;width:200px" align="left">
+<span class="verdana100FFFFFFtb">Skill type:</span>
+<select id="effects" name="skill" style="width: 225px; height: 20px;">
+<option value="Tailoring">Tailoring</option>
+<option value="Blacksmithing">Blacksmithing</option>
+<option value="Cooking">Cooking</option>
+<option value="Jewelcrafting">Jewelcrafting</option>
+<option value="Carpentry">Carpentry</option>
+<option value="Alchemy">Alchemy</option>
+
+</select></div>
+
+<div id="ldhevalue" style="position: absolute; left: 10px; top: 308px;" align="left">
+<span class="verdana100FFFFFFtb">Value:</span>
+<input type="text" id="value" name="value" style="width: 70px; height: 16px;" value="" maxlength="30"></div>
+
+<div id="ldhequant" style="position: absolute; left: 102px; top: 308px;;" align="left">
+<span class="verdana100FFFFFFtb">Number</span>
+<input type="text" id="quantity" name="number" style="width: 60px; height: 16px;" value="" maxlength="30"></div>
+
+<div id="ldhecells" style="position: absolute; left: 10px; top: 364px;" align="left">
+<span class="verdana100FFFFFFtb">Cell:</span>
+<select id="cells" name="cells" style="width: 225px;">
+{%for e in cells%}
+<option value="{{e.id}}">{{e.name}}</option>
+{%endfor%}
+</select></div>
+
+
+<div id="ldheButton1" style="position: absolute; left: 108px; top: 420px;" align="left">
+<input type="submit" id="Button1" name="Button1" style="width: 90px; height: 26px;" value="Create"></div>
+
+<img src="http://gcv4.s3.amazonaws.com/files/blank.gif" border="0" alt="">
+</body>
+</html>

@@ -1,0 +1,338 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>gcv4 | dev | alpha</title>
+<meta http-equiv="Type" type="text/javascript">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<meta http-equiv="content-type" content="text/html;charset=iso-8859-9">
+<meta http-equiv="content-type" content="text/html;charset=windows-1254">
+<meta http-equiv="content-type" content="text/html;charset=x-mac-turkish">
+
+<link type="text/css" media="screen" rel="stylesheet" href="http://gcv4.s3.amazonaws.com/files/style/colorbox.css" />
+<link type="text/css" rel="stylesheet" href="http://gcv4.s3.amazonaws.com/files/style/render.css"/>
+<link type="text/css" rel="stylesheet" href="http://gcv4.s3.amazonaws.com/files/style/jquery.pnotify.default.css"/>
+
+<style type="text/css">
+    html, body   { background-color: #101010; height: 100%; margin: 0; padding: 0;
+                   font-family: Verdana, "DejaVu Sans";color: white; font-size: 12px; text-align: center; }
+    span.shoutbox {
+       display:none;
+       padding: 4 4 5 5;
+       border: 1px solid  #000000; 
+       text-align: center; 
+       -moz-border-radius:5px; 
+       border-radius:5px;
+       color:#000000;
+       background-color:#f6f6f0;
+       font-family:"DejaVu Sans Mono";
+       font-size:11px;
+       white-space: nowrap;
+       z-index:99;
+    }
+    span.tus:hover {}
+
+    div.alert 
+    {
+      font-family: "Helvetica Neue", Helvetica, Arial;
+      color: #0A577D;
+      background-color: #D9EDF7;
+      border-color: #BCE8F1;
+      padding: 0px 0px 8px 14px;
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+      border: 1px solid #FBEED5;
+      -webkit-border-radius: 4px;
+      -moz-border-radius: 4px;
+      border-radius: 4px
+      font-size: 13px;
+      line-height: 18px;
+      padding-top: -50px;
+      margin-bottom: -5px;
+      margin-left: 0px;
+      margin-right: 0px;
+      margin-top: -15px;
+      text-align:left;
+      width:250px;
+    }
+
+    .imgeq
+    {
+       position:absolute;
+       top:0px;
+       left:0px;
+       width:100%;
+       height:100%;
+    }
+    #tooltip{
+        position:absolute;
+        border:1px solid #333;
+        background:#f7f5d1;
+        padding:2px 5px;
+        color:#333;
+        display:none;
+   	}
+  
+</style>
+
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.js"></script>
+<script type="text/javascript" src="http://gcv4.s3.amazonaws.com/files/script/pixastic.custom.js"></script>
+<script type="text/javascript" src="http://gcv4.s3.amazonaws.com/files/script/jquery.colorbox.js"></script>
+<!--<script type="text/javascript" src="http://gcv4.s3.amazonaws.com/files/script/render.js"></script>-->
+<script type="text/javascript" src="http://gcv4.s3.amazonaws.com/files/script/jquery.pnotify.min.js"></script>
+<script type="text/javascript" src="http://js.pusher.com/1.11/pusher.min.js"></script>
+<script type="text/javascript" src="http://gcv4.s3.amazonaws.com/files/script/simpletip.js"></script>
+<script type="text/javascript" src="/index/files/render.js"></script>
+
+<script language="javascript">
+{%ifequal current.category "outer"%}
+lum = {{luminance}} * -150;
+{%else%}
+lum = 0;
+{%endifequal%}
+
+window.onload = function(){
+    document.body.style.cursor = 'url("http://gcv4.s3.amazonaws.com/files/misc/'+action+'.gif")';
+    $('#peole').prepend('{{p_inner|safe}}');
+    tooltip();
+    
+    //initialize pusher
+    var pusher = new Pusher('2db61f16f86947ae603e');
+    var render = pusher.subscribe('render'+{{current.id}});
+    var notification = pusher.subscribe('notification'+{{my_id}});
+     
+    notification.bind('update', function(data) {
+      $.pnotify(data);
+    });
+    render.bind('update', function(data) {
+        n=jQuery.parseJSON(data);
+        if(n.action=='self')
+            move_p(n);
+        else if(n.action=='shout')
+            say_p(n);
+        else if(n.action=='travel')
+            go_p(n);
+        else if(n.action=='remove')
+            remove_p(n);
+        else if(n.action=='take')
+            take_p(n);
+        else if(n.action=='put')
+            put_p(n);
+    });
+};
+
+function move_p(n)
+{
+    m = $("#gObj"+n.id);    
+    m.replaceWith(n.data);
+    pageLoad();
+    return true;
+}
+
+function take_p(n)
+{
+    m = $("#gObj"+n.id);    
+    m.remove();
+    return true;
+}
+
+function put_p(n)
+{
+    remove_p(n)
+    remove_pn(n)
+    peole = $("#peole");    
+    peole.append(n.data);
+    pageLoad();
+    tooltip();
+    return true;
+}
+
+
+function say_p(n)
+{
+    g = $("#gObj"+n.id);
+    s = $("#shout"+n.id);   
+    s.css('left',parseInt(g.css('width'))/2-n.data.length*4 + "px");
+    s.html(n.data);
+    if(n.data!='')
+        shout = setTimeout(function(){$.post('/index/shout/',"shouted=");}, 5000);
+    if(n.data=='') s.css('display','none');
+    else s.css('display','block');
+    return true;
+}
+
+function go_p(n)
+{
+    if(n.destination=={{current.id}}){
+        remove_p(n)
+        $('#peole').append(n.data); 
+    }else{
+        m = $("#gObj"+n.id);
+        m.remove();
+    }
+    return true;
+}
+
+function remove_pn(n)
+{
+    remove_p(n);
+    m = $("#gObj"+n.id1);
+    m.remove();
+    m = $("#gObj"+n.id2);
+    m.remove();
+    return true;
+}
+
+function remove_p(n)
+{
+    m = $("#gObj"+n.id);
+    m.remove();
+    return true;
+}
+
+function rest_p()
+{
+    
+}
+
+
+//ipad and iphone check:
+var appleShit = false;
+
+if((navigator.userAgent.match(/iPhone/i)) || (navigator.userAgent.match(/iPad/i))) {
+   appleShit=true;
+}
+
+function castMagic(id){}
+
+function resting(x,y){}
+
+function rest(){
+    if(action=='idle') action='rest';
+	else action='idle';
+    ajaxReq('/index/char/rest/');
+	return true;
+}
+
+function setAction(a)
+{
+    action = a;
+    document.body.style.cursor = 'url("http://gcv4.s3.amazonaws.com/files/misc/'+a+'.gif")'
+}
+
+function sendCursorPos(elementID, e) {
+  var offset = $('#'+elementID).offset();
+  evt = e || window.event;
+  var x = Math.round(evt.pageX - offset.left);
+  //(window.event.pageY - offset.top - {{current.horizon}}-(ocument.getElementById('char22').height*12/11))*{{current.depth}}/216 = self.y
+  var y = Math.round((evt.pageY - offset.top - {{current.horizon}}+(document.getElementById('char{{my_id}}').height*1/11))*{{current.depth}}/214);
+  if(!(action=='idle')){
+    action='idle';
+    ajaxReq('/index/sendpos/'+x+'/'+y+'/');
+  }
+  document.body.style.cursor = 'url("http://gcv4.s3.amazonaws.com/files/misc/idle.gif")';
+}
+</script>
+
+
+</head>
+<body text="#000000" bgcolor="#FFFFFF" link="#0000FF" alink="#FF0000" vlink="#800080" onselectstart="return false">
+  
+  <div id="all" style="position: relative; margin-left: auto;margin-right: auto;vertical-align:middle;width: 57em;top:50%; margin-top:-300px;">
+<div id="cellInfo" style="position: absolute; left: 10px; top: 8px; width: 750px; height: 16px; text-align: justify;">
+    <span>You are currently in <i>"{{current.name}}"</i>. Today is {{today}}</span>
+</div>
+<div id="sky_container" style="position: absolute; left: 10px; top: 30px;" align="left">
+    {%ifequal current.category "outer"%}
+        <img id="sky" name="sky" src="http://gcv4.s3.amazonaws.com/files/air/{{current_time}}.jpg" width="703" height="365" border="0" alt="">
+    {%else%}
+        <img id="sky" name="sky" src="http://gcv4.s3.amazonaws.com/files/air/{{current_time}}.jpg" style="position:absolute;top:80px;" width="703" height="295" border="0" alt="">
+    {%endifequal%}
+</div>
+<div id="ldhePicture1" style="position: absolute; left: 10px; top: 29px;" align="left">
+	<img id="Picture1" name="Picture1" src="http://gcv4.s3.amazonaws.com/files/place/{{visual}}.png" width="703" height="514" border="0" alt="">
+	
+    <div id="quickmenu" style="position:absolute;display:inline;left:0%;top:100%;width:200px;" align="left">
+        <div ondrop="drop(event);" ondragenter="return false;" ondragover="event.preventDefault()" style="font-family: Verdana, Helvetica,sans-serif;background-color:#aacadd;color:black;font-size:12px;width:72px;height:20px;align:center;cursor:default;">
+            <a href="/index/cpanel/" class="cBox" style="text-decoration:none;color:black;position:relative;top:20%;height:20px;;outline:0;" >
+                <span class="link" style="font-family: Verdana;font-weight:bold;width:100%;">Character&nbsp;&nbsp;</span>
+            </a>	
+		</div>
+        <div style="position:absolute;top:0px;left:74px;font-family: Verdana, Helvetica,sans-serif;background-color:#aacadd;color:black;font-size:12px;width:45px;height:20px;align:center;cursor:default;;outline: 0;">
+			<span class="link" style="font-family: Verdana, Helvetica,sans-serif;font-weight:bold;position:relative;top:20%;height:20px;" onclick="wander();">&nbsp;Walk&nbsp;</span> 
+	    </div>
+        <div style="position:absolute;top:0px;left:121px;font-family: Verdana, Helvetica,sans-serif;background-color:#aacadd;color:black;font-size:12px;width:45px;height:20px;align:center;cursor:default;">
+			<span class="link" style="font-family: Verdana, Helvetica,sans-serif;font-weight:bold;position:relative;top:20%;height:20px;" onclick="rest();">&nbsp;Rest&nbsp;</span> 
+	    </div> 
+        <div id="box" style="font-family: Verdana, Helvetica,sans-serif;background-color:#aacadd;color:black;font-size:12px;width:45px;height:20px;position:absolute;left:168px;top:0px;align:center;cursor:default;
+                             display:block;float:left;overflow:hidden;;outline: 0;">
+            <form method="post" action="" onsubmit="send_form();this.reset();return false;" style="position:relative;top:20%;height:8px;">
+                <span  id="box_link" class="link" style="font-family: Verdana, Helvetica,sans-serif;font-weight:bold;">Shout&nbsp;&nbsp;</span>
+                <input id="shouttext" type="text" style="position: absolute; left:48px;top:-3px; width:340px;font-family:Verdana;font-size:10px;" autocomplete="off" value=""></input>
+            </form>
+        </div>
+    </div>
+    
+</div>
+{%ifequal state -1%}
+<div id="sadfgh" style="position: absolute; left: 10px; top: 29px;" align="left">
+
+    <img id="lux" style="opacity:0.4;filter:alpha(opacity=0.1);"
+    name="lux" src="http://gcv4.s3.amazonaws.com/files/air/lux.png" width="703" height="514" border="0"
+    onload="$(this).pixastic('blurfast',{amount:0.6});">
+</div>
+{%endifequal%} 
+<div id="shader" style="position: absolute; left: 10px; top: 29px;" align="left">
+{%ifequal current.category "outer"%}
+        <img id="shade" style="opacity:{{luminance}};filter:alpha(opacity={{lpercent}});"  onclick="sendCursorPos('shade',event);"
+        name="shader" src="http://gcv4.s3.amazonaws.com/files/air/shade.png" width="703" height="514" border="0">
+{%else%}
+        <img id="shade" onclick="sendCursorPos('shade',event);" src="http://gcv4.s3.amazonaws.com/files/blank.gif" width="703" height="514" border="0">
+{%endifequal%}
+</div>
+<div id="peole" style="position: absolute; left: 10px; top: 29px;" align="left">
+</div> 
+{%ifequal current.category "outer"%}
+<div id="Static" style="position: absolute;left:10px;top:27px;width:165px;height:514px;z-index:500;" align="left">
+    <img id="sign" style="position: absolute;left:15px;top:260px;"name="Picture1" src="/index/files/item/road_sign.gif" onload="$(this).pixastic('brightness',{brightness:(-120*{{luminance}}),contrast:0});" border="0" alt="">
+</div>
+<div id="ldheGotoCmb1" style="position: absolute; left: 41px; top: 299px;z-index:500;" align="left">
+<select id="GotoCmb1" name="GotoCmb1" style="width: 110px;" onchange="jsComboLink(this);">
+<option selected>Go to...</option>
+{%for e in current.connection.all%}
+<option value="/index/travel/{{e.id}}[*]">{{e.name}}</option>
+{%endfor%}
+</select></div>
+{%endifequal%}
+
+<div id="harvestings" style="position: absolute; left: -5px; top: 35px;" align="left">
+    {%for e in current.harvests.all%}
+         <a href="/index/harvest/{{e.id}}/" class="hBox" style="text-decoration:none;position:relative;left:20px;;outline:0;z-index:501;" title="{{e.name}}">
+            <img src="http://gcv4.s3.amazonaws.com/files/item/{{e.handler}}.gif" border="0"></img>
+         </a>
+    {%empty%}    
+    {%endfor%}
+</div>
+</div>
+<div id="dummy"></div>
+<footer style="position:absolute;bottom:2px;left:0px;width:100%;">
+    <div id="badges" style="position: relative; margin-left: auto;margin-right: auto;width:98%;top:30%;border-top:1px solid #fff;">
+        <div id="version" style="position: relative; top: 100%;margin-bottom:3px;margin-top:3px;">
+            <span style="font-family: Verdana, Arial, Helvetica, sans-serif;color: white; font-size: 10px;">
+                gcv4 v0.7.5.1 alpha 
+            </span>
+            <span style="font-family: Verdana, Arial, Helvetica, sans-serif; color: white; font-size: 10px;">
+                | <a class="link" href="http://gcv4.net/project/">project page</a>
+            </span>
+            <span style="font-family: Verdana, Arial, Helvetica, sans-serif; color: white; font-size: 10px;">
+                | <a class="link" href="http://gcv4.net/personal">about</a>
+            </span>
+            <span style="font-family: Verdana, Arial, Helvetica, sans-serif; color: white; font-size: 10px;">
+                | <a class="link" href="/index/logout/">logout</a>
+            </span>
+        </div>
+        <a href="http://www.djangoproject.com/"><img style="width:42px;height:18px;" src="https://www.djangoproject.com/m/img/badges/djangopowered126x54.gif" border="0" alt="Powered by Django." title="Powered by Django." /></a>
+        <a href="http://pusher.com?utm_source=badge"><img style="width:50px;height:18px;"src="http://pusher.com/images/badges/pusher_badge_dark_2.png" alt="Powered by Pusher." title="Powered by Pusher."></a>
+    </div>
+</footer>
+</body>
+</html>

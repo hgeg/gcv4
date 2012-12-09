@@ -1,0 +1,128 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>inventory</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style type="text/css">
+body {margin: 0px; padding: 0px; scrollbar-base-color: #3895ca; height:10px;}
+.btns {border: 0px #000000 groove; background-color: #3895ca; color: 
+#FFFFFF; 
+font-family: Arial, Tahoma, Helvetica, sans-serif; font-size: 11px; font-weight: bold; text-decoration: none;}
+.inv {border: 4px #000000 double; background-color: #FBFDFF; text-decoration: none;}
+.invs {border: 2px #C0E3FF solid; background-color: #FBFDFF; font-family: "Trebuchet MS", Arial, Verdana, sans-serif; font-size: 11px; font-weight: bold; text-decoration: none;}
+.verdana80FFFFFFt {font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px; color: #000000; text-decoration: none;}
+
+    #tooltip{
+        position:absolute;
+        border:1px solid #333;
+        background:#f7f5d1;
+        padding:2px 5px;
+        color:#333;
+        display:none;
+    }
+
+</style>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.js"></script>
+<script type="text/javascript" src="http://gcv4.s3.amazonaws.com/files/script/simpletip.js"></script>
+<script type="text/javascript">
+
+c_id = -1
+    
+check_action = function(typ,cat){
+    if(typ=='tool') document.getElementById('use').value='Equip';
+    else if(typ=='material') document.getElementById('use').value='Use';
+    else if(typ=='document'){
+        if(cat=='blank') document.getElementById('use').value='Write';
+        else if(cat=='scroll') document.getElementById('use').value='Learn';
+        else document.getElementById('use').value='Read';
+    }
+    else if(typ=='container') document.getElementById('use').value='Open';
+    else if(typ=='bag') document.getElementById('use').value='Pocket';
+};
+
+check_marked = function(mrk){
+    if(mrk=='True') document.getElementById('mark').value='Unmark';
+    else document.getElementById('mark').value='Mark';
+};
+
+function send_form(val)
+  {
+    inv = document.getElementById('inv_list');
+    index = inv.selectedIndex;
+    item = inv.children[inv.selectedIndex].value;
+    action = val;
+    dataString = "inventory=" + item + "&Btn=" + action;
+
+    $.ajax({
+      type: "POST", url: "/index/item_act/", data: dataString, 
+      success: function(data){
+        json = $.parseJSON(data);
+        console.log(json);
+        if(json.action == "remove")
+          inv.removeChild(inv.children[index]);
+        else if(json.action == "replace"){
+          inv.children[index].innerText = json.data;
+          inv.children[index].value = json.id;
+        }  
+        else if(json.action == "rename")
+          inv.children[index].innerText = json.data;
+        else if(json.action == "pocket"){
+          $('#volans').html(":"+json.data[0]);  
+          $('#orns').html(":"+json.data[1]);  
+          inv.removeChild(inv.children[index]);
+        }
+        else if(json.action == "open")
+          if(json.data==687) parent.parent.jQuery.fn.colorbox({width:'600', height:'490', iframe:true, href:'/index/viewdoc/'+json.id+'/0/'});
+          if(json.data==231) parent.parent.jQuery.fn.colorbox({width:'600', height:'490', iframe:true, href:'/index/viewdocx/'+json.id+'/0/'});
+          if(json.data==232) parent.parent.jQuery.fn.colorbox({width:'600', height:'490', iframe:true, href:'/index/writedoc/'+json.id+'/'});
+          if(json.data==338) parent.parent.jQuery.fn.colorbox({width:'620', height:'300', iframe:true, href:'/index/look/'+json.id+'/'});
+      }
+    });
+  }
+</script>
+
+</head>
+<body text="#000000" bgcolor="#FFFFFF" link="#0000FF" alink="#FF0000" vlink="#800080">
+<div id="all" style="position: absolute; left: -3px; top: -30px;" align="left">
+    <form id="Form1" name="Form1" style="position: absolute; left: 0px; top: 0px;" method="POST" action="">
+        <div id="ldheinventory" style="position: absolute; left: 8px; top: 55px;" align="left">
+            <select id="inv_list" name="inventory" style="width: 276px; height: 142px;" class="invs" multiple size="8" autofocus="autofocus">
+                {%for item in inventory%}
+                <option  value="{{item.id}}" onclick="check_action('{{item.typeclass}}','{{item.category}}');check_marked('{{item.marked}}');c_id={{item.id}};">{{item.get_name}}</option>
+                {%endfor%}
+            </select>
+        </div>
+        <div id="ldheuse" style="position: absolute; left: 8px; top: 205px;" align="left">
+            <input type="button" id="use" name="Btn" style="width: 50px; height: 26px;" class="btns" value="Use" onclick="send_form('Use');">
+        </div>
+        <div id="ldheButton1" style="position: absolute; left: 105px; top: 205px;" align="left">
+            <input type="button" id="mark" name="Btn" style="width: 60px; height: 26px;" class="btns" value="Mark" onclick="send_form('Mark');">
+        </div>
+        <div id="ldheButton1" style="position: absolute; left: 210px; top: 205px;" align="left">
+            <input type="button" id="toss" name="Btn" style="width: 71px; height: 26px;" onclick="parent.parent.jQuery.fn.colorbox({width:'220', height:'140', iframe:true, href:'/index/inv/amount:choose/'+c_id+'/'});" class="btns" value="Toss">
+        </div>
+        <img src="http://gcv4.s3.amazonaws.com/files/cpanel/blank.gif" border="0" alt=""></img>
+    </form>
+
+    <div id="finance" style="position: relative; left: 10px; top: 33px;" align="left">
+        <img id="GrLabel2" name="GrLabel2" src="http://gcv4.s3.amazonaws.com/files/cpanel/volan.gif" width="16" height="16" border="0" title="Volans"></img>
+        <span class="verdana80FFFFFFt" id="volans">:{{Volans}} </span>
+        <img id="GrLabel2" name="GrLabel2" src="http://gcv4.s3.amazonaws.com/files/cpanel/orn.gif" width="16" height="16" border="0" title="Orns"></img>
+        <span class="verdana80FFFFFFt" style="position: relative; left:-6;" id="orns">:{{Orns}} </span>
+        <img onclick="parent.parent.jQuery.fn.colorbox({width:'285', height:'135', iframe:true, href:'/index/inv/put/',scrolling:false});" src="http://gcv4.s3.amazonaws.com/files/cpanel/put.gif"></img>
+    </div>
+    {%if state > 0%}
+        {%if state < 8%}
+            <div id="ff" style="position: absolute; left:223px; top:33px;width:300px">
+                <input type="button" onclick="parent.parent.jQuery.fn.colorbox({width:'750', height:'510', iframe:true, href:'/index/interact:return/',scrolling:false});" style="cursor:default;font-family:Verdana;font-size:10px;" value="Return"></input> 
+            </div>
+        {%else%}
+            <div id="ff" style="position: absolute; left:223px; top:33px;width:300px">
+                <input type="button" onclick="parent.parent.jQuery.fn.colorbox({width:'620', height:'300', iframe:true, href:'/index/chest:return/',scrolling:false});" style="cursor:default;font-family:Verdana;font-size:10px;" value="Return"></input> 
+            </div>
+        {%endif%}
+    {%endif%}
+</div>
+</body>
+</html>

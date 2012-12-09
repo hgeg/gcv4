@@ -1,0 +1,98 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+  <title>interact</title>
+  
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.js"></script>
+<script type="text/javascript" src="http://gcv4.s3.amazonaws.com/files/script/jquery-1.4.2.js"></script>
+<script type="text/javascript" src="http://gcv4.s3.amazonaws.com/files/script/jquery.colorbox-min.js"></script>
+<script language="javascript" type="text/javascript" src="http://gcv4.s3.amazonaws.com/files/script/inter.js"></script>
+<script type="text/javascript" src="http://js.pusher.com/1.11/pusher.min.js"></script>
+
+<script language="javascript">
+var pusher,otherbox,messages,signal
+window.onload = function(){
+    //initialize pusher
+    var pusher = new Pusher('031d3d7419274ea63a75');
+    var otherbox = pusher.subscribe('box'+{{iid}});
+    var messages = pusher.subscribe('msg'+{{iid}});
+    var signal = pusher.subscribe('sgn'+{{iid}});
+    //define events
+    otherbox.bind('update', function(data) {
+      $.ajax({ method:'get', url: '/index/interact/otherbox/', success: function(response) { if(response.length>0) $('#otherbox').html(response) }});
+    });
+    messages.bind('update', function(data) {
+      $.ajax({ method:'get', url: '/index/get_msg_list/', success: function(response) { if(response.length>0) $('#msg_box').html(response) }});
+    });
+    signal.bind('update', function(data) {
+      $.ajax({ method:'get', url: '/index/status/signal/', success: function(response) { if(response.length>0) $('#status').html(response) }});
+    });
+    focus();
+};
+</script>
+<style type="text/css">
+body{
+   background-color: #FFFFFF;
+   color: #000000;
+}
+
+a:active
+{
+   color: #0000FF;
+   
+input{
+  color: #5590df;
+  border: 1px solid #5590df;
+  font-weight: bold;
+}
+</style>
+</head>
+<body>
+
+<textarea id="msg_box" style="position:absolute;left:12px;top:10px;width:685px;height:180px;border:1px #C0C0C0 solid;font-family:Verdana;font-size:12px;z-index:10" rows="9" cols="81" readonly="readonly">{{messages}}</textarea>
+<div id="wb_Form1" style="position:absolute;background-color:#F7F9FC;left:7px;top:200px;width:695px;height:34px;z-index:11">
+
+<form name="msgform" method="post" action="" onsubmit="send_form();return false;" id="say">
+<input type="submit" id="msg_submit" name="submit" value="Say" style="position:absolute;left:661px;top:9px;width:0px;height:0px;z-index:-1">
+<input type="text" id="msg_input" style="position:absolute;left:5px;top:6px;width:689px;height:18px;border:1px #C0C0C0 solid;font-family:Verdana;font-size:12px;z-index:0" name="msg_content" autocomplete="off" value="" autofocus="autofocus">
+</form>
+
+</div>
+<div id="wb_Form2" style="position:absolute;background-color:#F7F9FC;left:10px;top:230px;width:696px;height:200px;z-index:13">
+<form name="Form2" method="post" action="/index/interact/exchange/" id="Form2">
+
+<div style="position:absolute;left:3px;top:10px;width:165px;height:181px;border:1px #C0C0C0 solid;z-index:2">
+<select id="inventory" name="inventory" multiple size="11"  {% if s1 %}disabled="disabled"{% endif %} style="position:absolute;left:0px;top:0px;width:100%;height:100%;border-width:0px;font-family:Courier New;font-size:11px;">
+{%for item in inventory%}
+<option value="{{item.id}}">{{item.get_name}}</option>
+{%endfor%}
+</select>
+</div>
+<input type="submit" id="benjamin" name="benjamin" value="{% if s1 %}Break{% else %}Ready{% endif %}" style="position:absolute;left:450px;top:20px;width:70px;height:25px;font-family:Verdana;font-size:11px;z-index:3">
+<input type="submit" id="benjamin" name="benjamin" value="Confirm" style="position:absolute;left:450px;top:45px;width:70px;height:25px;font-family:Verdana;font-size:11px;z-index:3">
+<input type="submit" id="benjamin" name="benjamin" value="Interrupt" style="position:absolute;left:450px;top:70px;width:70px;height:25px;font-family:Verdana;font-size:11px;z-index:3">
+<input type="submit" id="benjamin" name="benjamin" value="--->" {% if s1 %}disabled="disabled"{% endif %} style="position:absolute;left:182px;top:40px;width:72px;height:20px;font-family:Verdana;font-size:11px;z-index:4">
+<input type="submit" id="benjamin" name="benjamin" value="<---" {% if s1 %}disabled="disabled"{% endif %} style="position:absolute;left:182px;top:65px;width:72px;height:20px;font-family:Verdana;font-size:11px;z-index:5">
+<input type="text" id="amount" name="amount" placeholder="amount" {% if s1 %}disabled="disabled"{% endif %} style="position:absolute;left:182px;top:15px;width:60px;height:15px;font-family:Verdana;font-size:11px;z-index:5">
+<input type="button" onclick="parent.jQuery.fn.colorbox({width:'350', height:'320', iframe:true, href:'/index/cpanel/3/',scrolling:false});" style="position:absolute;left:182px;top:95px;width:72px;height:20px;font-family:Verdana;font-size:11px;" value="Inventory"></input> 
+
+<div style="position:absolute;left:540px;top:10px;width:149px;height:181px;border:1px #C0C0C0 solid;z-index:6">
+<div name="otherbox" id="otherbox" style="position:absolute;left:0px;top:0px;width:100%;height:100%;border-width:0px;font-family:Courier New;font-size:11px;">
+</div>
+</div>
+
+<div style="position:absolute;left:270px;top:10px;width:158px;height:181px;border:1px #C0C0C0 solid;z-index:9">
+<select name="mybox" id="mybox" {% if s1 %}disabled="disabled"{% endif %} multiple size="11"  style="position:absolute;	left:0px;top:0px;width:100%;height:100%;border-width:0px;font-family:Courier New;font-size:11px;">
+{%for item in box%}
+<option value="{{item.id}}">{{item.get_name}}</option>
+{%endfor%}
+</select>
+</div>
+<div id="status" name="status" style="margin:0;padding:0;position:absolute;left:440px;top:100px;width:110px;height:14px;text-align:left;z-index:7;">
+</div>
+</form>
+</div>
+</body>
+</html>

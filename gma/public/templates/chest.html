@@ -1,0 +1,70 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title></title>
+<!-- Created with an unregistered copy of Dynamic HTML WYSIWYG Editor -->
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+<meta http-equiv="Content-Style-Type" content="text/css">
+
+<script language="javascript" type="text/javascript">
+transfer = document.getElementById('transfer');
+transferAll = document.getElementById('transferAll');
+var inv = null;
+var other= null; 
+
+function closeBox(){
+xml = getXhttp( );
+
+xml.open('POST', '/index/chest/action/True/');
+xml.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+xml.send('benjamin=Carry');
+parent.jQuery.fn.colorbox({width:'350', height:'320', iframe:true, href:'/index/cpanel/3/',scrolling:false});
+
+}
+
+</script>
+<script language="javascript" type="text/javascript" src="http://gcv4.s3.amazonaws.com/files/script/npcinter.js"></script>
+<script language="javascript" type="text/javascript" src="http://gcv4.s3.amazonaws.com/files/script/prototype.js"></script>
+
+</head>
+<body text="#000000" bgcolor="#FFFFFF" link="#0000FF" alink="#FF0000" vlink="#800080">
+<div id="wb_Form2" style="position:absolute;background-color:#F7F9FC;left:10px;top:20px;width:550px;height:200px;z-index:13">
+<form name="Form2" method="post" action="/index/chest/action/{%if m%}True{%else%}False{%endif%}/" id="Form2">
+    <div id="finance" style="position: relative; left: 3px; top: -10px;width:200" align="left">
+        <input type="button" onclick="parent.jQuery.fn.colorbox({width:'350', height:'320', iframe:true, href:'/index/cpanel/3/',scrolling:false});" style="cursor:default;font-family:Verdana;font-size:10px;" value="Inventory"></input> 
+    </div>
+    <div style="position:absolute;left:3px;top:10px;width:255px;height:181px;border:1px #C0C0C0 solid;z-index:2">
+        <select id="inventory" name="inventory" multiple size="11"  style="position:absolute;left:0px;top:0px;width:100%;height:100%;border-width:0px;font-family:Courier New;font-size:13px;" onclick="transfer.value = 'Give';transferAll.value='Give All';inv=this;">
+            {%for item in inventory%}
+			{%ifnotequal item.id d_id %}
+            <option value="{{item.id}}" onclick="other.selectedIndex=-1;">{{item.get_name}}</option>
+			{%endifnotequal%}
+            {%endfor%}
+        </select>
+    </div>
+
+	
+    <input type="text" id="amount" name="amount" placeholder="amount" {% if s1 %}disabled="disabled"{% endif %} style="position:absolute;left:266px;top:10px;width:60px;height:15px;font-family:Verdana;font-size:11px;z-index:5">
+
+    <input type="submit" id="transfer" name="benjamin" value="Give"  style="position:absolute;left:270px;top:30px;width:50px;height:25px;font-family:Arial;font-size:11px;z-index:4"></input> 
+    <input type="submit" id="transferAll" name="benjamin" value="Give All"  style="position:absolute;left:265px;top:60px;width:60px;height:25px;font-family:Arial;font-size:11px;z-index:4"></input> 
+	{%if m%}
+    <input type="submit" id="benjamin" name="benjamin" value="Close"  style="position:absolute;left:270px;top:100px;width:50px;height:25px;font-family:Arial;font-size:11px;z-index:5"></input>
+
+	<input type="submit" id="benjamin" name="benjamin" value="Carry"  style="position:absolute;left:270px;top:125px;width:50px;height:25px;font-family:Arial;font-size:11px;z-index:5"></input>
+	{%else%}
+    <input type="button" id="benjamin" name="benjamin" value="Close" onclick="closeBox();return false;" style="position:absolute;left:270px;top:100px;width:50px;height:25px;font-family:Arial;font-size:11px;z-index:5"></input>
+	{%endif%}
+    <div style="position:absolute;left:330px;top:10px;width:239px;height:181px;border:1px #C0C0C0 solid;z-index:6">
+        <select name="otherbox" id="otherbox" multiple size="11" style="position:absolute;left:0px;top:0px;width:100%;height:100%;border-width:0px;font-family:Courier New;font-size:13px;" onclick="transfer.value = 'Take';transferAll.value='Take All';other=this;">
+        {%for item in otherbox%}
+        <option value="{{item.id}}" onclick="inv.selectedIndex=-1;">{{item.get_name}}</option>
+        {%endfor%}
+        </select>
+    </div>
+</form>
+</div>
+</body>
+</html>

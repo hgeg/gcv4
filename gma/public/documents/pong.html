@@ -1,0 +1,137 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Pong!</title>
+		<script> 
+			var i = 0;
+			var j = 0;
+			var hum_pos = 0;
+			var opp_pos = 0;
+			var hum_score = 0;
+			var opp_score = 0;
+			var ball = [5,1,1,1];//x_pos,y_pos,v_x,v_y
+
+			String.prototype.replaceAt=function(index,char){
+				return this.substr(0,index)+char+this.substr(index+1);
+			}
+
+			window.onload = function(){
+				setInterval("update_ball()",35);
+				setInterval("update_opponent()",37);
+				setInterval("update_human()",37);
+			}
+
+			
+			document.onkeydown = function(e){
+				var e=window.event || e;
+				hum_pos = window.hum_pos;
+				if ((e.keyCode == 38)&&(hum_pos>0)){
+					document.getElementById("table").innerHTML=document.getElementById("table").innerHTML.replaceAt(65*(hum_pos+1)-2," ");
+					window.hum_pos--;
+					document.getElementById("table").innerHTML=document.getElementById("table").innerHTML.replaceAt(65*(hum_pos+1)-2,"|");
+				}else if ((e.keyCode == 40)&&(hum_pos<15)){
+					document.getElementById("table").innerHTML=document.getElementById("table").innerHTML.replaceAt(65*(hum_pos+1)-2," ");
+					window.hum_pos++;
+					document.getElementById("table").innerHTML=document.getElementById("table").innerHTML.replaceAt(65*(hum_pos+1)-2,"|");				
+				}			
+			};
+
+			function update_ball(){
+				if((ball[0]==0)||(ball[0]==63)||(document.getElementById("table").innerHTML.charAt(65*ball[1]+ball[0]+ball[3])=="|")) ball[3]=-ball[3];	
+				if((ball[1]==0)||(ball[1]==20)||(document.getElementById("table").innerHTML.charAt(65*ball[1]+ball[0]+ball[3])=="|")) ball[2]=-ball[2];
+				document.getElementById("table").innerHTML=document.getElementById("table").innerHTML.replaceAt(65*ball[1]+ball[0]," ");
+				ball[0]=ball[0]+ball[3];
+				ball[1]=ball[1]+ball[2];
+				document.getElementById("table").innerHTML=document.getElementById("table").innerHTML.replaceAt(65*ball[1]+ball[0],"o");
+				if(ball[0]==0) document.getElementById("P2_score").innerHTML=++hum_score;
+				if(ball[0]==63) document.getElementById("P1_score").innerHTML=++opp_score;
+			}
+			
+			function update_human(){
+				document.getElementById("table").innerHTML=document.getElementById("table").innerHTML.replaceAt(65*(hum_pos+1)-2," ");
+				if((ball[0]>(63-Math.floor(Math.random()*11)-8))&&(ball[3]>0))
+					if(ball[1]<hum_pos) hum_pos--;
+					else if(ball[1]>hum_pos) hum_pos++;
+				document.getElementById("table").innerHTML=document.getElementById("table").innerHTML.replaceAt(65*(hum_pos+1)-2,"|");
+			}
+			
+			function update_opponent(){
+				document.getElementById("table").innerHTML=document.getElementById("table").innerHTML.replaceAt(65*(opp_pos)," ");
+				if((ball[0]<(Math.floor(Math.random()*11)+5))&&(ball[3]<0))
+					if(ball[1]<opp_pos) opp_pos--;
+					else if(ball[1]>opp_pos) opp_pos++;
+				document.getElementById("table").innerHTML=document.getElementById("table").innerHTML.replaceAt(65*(opp_pos),"|");
+			}
+		
+		</script>
+		<style>
+			body {
+				background-color: #000000;
+				color: #ffffff;
+				font-family: "Courier New";
+				font-size: 12px;
+			}
+			a {
+				color: #000000;
+				background-color: #000000;
+				cursor: none;
+			}
+
+			a:hover {
+				color: #ffffff;
+				background-color: #000000;
+				cursor: none;
+			}
+			div{
+				
+				width:455px;
+				padding:0;
+				margin:0;
+				text-align:center;
+				margin:0 auto;
+			}
+			pre{
+				font-size: 11px;
+				cursor: none;
+				border-style: solid;
+				border-width: 2px;
+				border-color: white;
+			}
+			span{
+				font-weight: bold;
+			}
+		</style>
+
+		</head>
+	<body>
+		<h2 align="center">Pong!</h2>
+		<div id="tableContainer" name="tableContainer" onkeydown="move(event);">
+			<pre id="table" name="table">
+|                                                              |
+     o                                                          
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                
+                                                                </pre>
+		</div>
+		<div>
+		<span>Score:</span><br/>
+		<span>Player1:<span id="P1_score">0</span></span>&nbsp;&nbsp;&nbsp;<span>Player2:<span id="P2_score">0</span></span>
+		</div>
+	</body>
+</html>

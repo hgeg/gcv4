@@ -1,0 +1,32 @@
+
+<html>
+    <head><link type="text/css" media="screen" rel="stylesheet" href="/index/files/docs.css"/></head>
+    <body>
+        <div name="divform">
+            <form action="/index/thebook" method="POST">
+            <p>krestis fellion maulin werosum eneid vi ulasim kamas mera
+            unaga mana valasa peristoris kanta venimo ceoridan laban nes taraki vetsi</p><b>What:</b>
+                <select id="what" name="what" style="width: 134px;">
+                    <option value="go" selected>Go To</option>
+                    <option value="tel">Teleport</option>
+                </select>
+            <p>vitali peon vasas mero indesi mi un kala varasi pesson</p>
+            <b>Who:</b>
+                <select id="what" name="what" style="width: 134px;">
+                    {%for e in character.objects.all %}
+                    <option value="{{e.id}}">{{e.name}}</option>
+                    {%endfor%}
+                </select>
+                <p>sial kan naredi vemi werdi nagaki tesus ined cest ur kalipar
+                nerit mastin merit melor</p>
+            <b>Where:</b>
+                <select id="what" name="what" style="width: 134px;">
+                    {%for e in place.objects.all %}
+                    <option value="{{e.id}}">{{e.name}}</option>
+                    {%endfor%}
+                </select>
+            </form>
+            <p>saldari unam melikor men insatis velip purodan andari lamar</p>
+        </div>
+    </body>
+</html>    

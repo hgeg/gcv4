@@ -1,0 +1,142 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/HTML; charset=utf-8"/>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.js"></script>
+<title>Character Panel</title>
+
+<style type="text/css">
+
+body{
+background-color: transparent;
+}
+ul.tabs {
+	margin: 0;
+	padding: 0;
+	float: left;
+	list-style: none;
+	height: 16px; /*--Set height of tabs--*/
+	border-bottom: 1px solid #999;
+	border-left: 1px solid #999;
+	width: 100%;
+}
+ul.tabs li {
+	float: left;
+	margin: 0;
+	padding: 0;
+	height: 15px; /*--Subtract 1px from the height of the unordered list--*/
+	line-height: 15px; /*--Vertically aligns the text within the tab--*/
+	border: 1px solid #999;
+	border-left: none;
+	margin-bottom: -1px; /*--Pull the list item down 1px--*/
+	overflow: hidden;
+	position: relative;
+	background: #e0e0e0;
+}
+ul.tabs li a {
+	text-decoration: none;
+	color: #000;
+	display: block;
+	font-size: 0.8em;
+    font-family: Verdana;
+	padding: 0 3px;
+	border: 1px solid #fff; /*--Gives the bevel look with a 1px white border inside the list item--*/
+	outline: none;
+}
+ul.tabs li a:hover {
+	background: #ccc;
+}
+html ul.tabs li.active, html ul.tabs li.active a:hover  { /*--Makes sure that the active tab does not listen to the hover properties--*/
+	background: #fff;
+	border-bottom: 1px solid #fff; /*--Makes the active tab look like it's connected with its content--*/
+}
+
+.tab_container {
+	border: 1px solid #999;
+	border-top: none;
+	overflow: hidden;
+	clear: both;
+	float: left; width: 100%;
+    height:230px;
+	background: #fff;
+}
+.tab_content {
+	padding: 5px;
+	font-size: 1.2em;
+}
+
+iframe {
+	padding: 0px;
+	height: 225px;
+	width: 300px;
+}
+
+</style>
+
+<script type="text/javascript">
+
+function reload(c){
+	var f = $(c+" iframe");
+	f.attr('src',f.attr('src'));
+}
+
+$(document).ready(function() {
+
+    
+
+	//When page loads...
+	$(".tab_content").hide(); //Hide all content
+	$("ul.tabs li#{{tab}}"+"s").addClass("active").show(); //Activate first tab
+	$(".tab_content#{{tab}}").show(); //Show first tab content
+
+	//On Click Event
+	$("ul.tabs li").click(function() {
+        var activeTab = $(this).find("a").attr("href"); //Find the href attribute value to identify the active tab + content
+		reload(activeTab);
+        
+		$("ul.tabs li").removeClass("active"); //Remove any "active" class
+		$(this).addClass("active"); //Add "active" class to selected tab
+		$(".tab_content").hide(); //Hide all tab content
+		
+        $(activeTab).fadeIn(); //Fade in the active ID content
+		return false;
+	});
+
+});
+
+ 
+</script>
+
+</head>
+
+
+<body style="cursor: default;">
+
+<ul class="tabs">
+    <li id='chars'><a href="#char">Character</a></li>
+    <li id='skills'><a href="#skill">Skills</a></li>
+    <li id='items'><a href="#item">Inventory</a></li>
+    <li id='spells'><a href="#spell">Spellbook</a></li>
+</ul>
+
+<div class="tab_container">
+    <div id="char" class="tab_content" scrolling="no">
+        <iframe name="char" id="char" src="/index/char/" frameborder="0"  align="center">
+        </iframe>
+    </div>
+    <div id="skill" class="tab_content">
+       <iframe name="skill" id="skill" src="/index/char/skills/" frameborder="0" align="center">
+       </iframe>
+    </div>
+    <div id="item" class="tab_content" scrolling="no">
+        <iframe name="item" id="item" src="/index/char/inv/" scrolling="no" frameborder="0" align="center">
+        </iframe>
+    </div>
+    <div id="spell" class="tab_content" scrolling="no">
+       <iframe name="spell" id="spell" src="/index/char/sbk/"  scrolling="no" frameborder="0" align="center">
+       </iframe>
+    </div>
+</div>
+
+</body>
+</html>

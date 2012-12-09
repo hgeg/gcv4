@@ -1,0 +1,284 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>gcv4 | alpha</title>
+<meta http-equiv="Type" type="text/javascript">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<meta http-equiv="content-type" content="text/html;charset=iso-8859-9">
+<meta http-equiv="content-type" content="text/html;charset=windows-1254">
+<meta http-equiv="content-type" content="text/html;charset=x-mac-turkish">
+
+<link type="text/css" media="screen" rel="stylesheet" href="http://gcv4.s3.amazonaws.com/files/style/colorbox.css" />
+<link type="text/css" rel="stylesheet" href="http://gcv4.s3.amazonaws.com/files/style/render.css"/>
+<link type="text/css" rel="stylesheet" href="http://gcv4.s3.amazonaws.com/files/style/notify.css"/>
+
+<style type="text/css">
+         html, body   { background-color: #101010; height: 100%; margin: 0; padding: 0;
+                        font-family: Verdana, "DejaVu Sans";color: white; font-size: 13px; text-align: center; }
+         span.tus:hover {}
+</style>
+
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/prototype/1.7.0.0/prototype.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.js"></script>
+<script type="text/javascript" src="http://gcv4.s3.amazonaws.com/files/script/simpletip.js"></script>
+<script type="text/javascript" src="http://gcv4.s3.amazonaws.com/files/script/pixastic.custom.js"></script>
+<script type="text/javascript" src="http://gcv4.s3.amazonaws.com/files/script/jquery.colorbox.js"></script>
+<script type="text/javascript" src="http://gcv4.s3.amazonaws.com/files/script/render.js"></script>
+<script type="text/javascript" src="http://gcv4.s3.amazonaws.com/files/script/notify.js"></script>
+
+<script language="javascript">
+jQuery.noConflict();
+//hideAllMessages();
+{%ifequal current.category "outer"%}
+lum = {{luminance}} * -150;
+{%else%}
+lum = 0;
+{%endifequal%}
+var move = "http://gcv4.s3.amazonaws.com/files/misc/move.gif";
+var registered = [];
+var regcount = 0;
+
+function registerSprite(id){
+    registered[regcount] = id;
+    ++regcount;
+}
+
+function combine(id){
+    body = jQuery('#char'+id);
+    //get object data
+    var props
+    eval("props = "+body.attr('name'));
+    //convert into base dimensions
+    h0=body.css('height');
+    w0=body.css('width');
+    body.css('height',113);
+    body.css('width',61);
+    //appereance
+    hair= new Image()
+    hair.src = "/index/files/char/"+props['image']+"/"+props['gender']+"/appereance/h"+props['appereance'][0]+".gif";
+    beard= new Image()
+    beard.src = "/index/files/char/"+props['image']+"/"+props['gender']+"/appereance/b"+props['appereance'][1]+".gif";
+    //equipment
+    weapon= new Image()
+    weapon.src = "/index/files/char/"+props['image']+"/"+props['gender']+"/"+props['equipment'][0]+".gif";
+    hat = new Image()
+    hat.src = "/index/files/char/"+props['image']+"/"+props['gender']+"/"+props['equipment'][1]+".gif";
+    pauldrons = new Image()
+    pauldrons.src = "/index/files/char/"+props['image']+"/"+props['gender']+"/"+props['equipment'][2]+".gif";
+    armor = new Image()
+    armor.src = "/index/files/char/"+props['image']+"/"+props['gender']+"/"+props['equipment'][3]+".gif";
+    gloves = new Image()
+    gloves.src = "/index/files/char/"+props['image']+"/"+props['gender']+"/"+props['equipment'][4]+".gif";
+    shirt = new Image()
+    shirt.src = "/index/files/char/"+props['image']+"/"+props['gender']+"/"+props['equipment'][5]+".gif";
+    greaves = new Image()
+    greaves.src = "/index/files/char/"+props['image']+"/"+props['gender']+"/"+props['equipment'][6]+".gif";
+    pants = new Image()
+    pants.src = "/index/files/char/"+props['image']+"/"+props['gender']+"/"+props['equipment'][7]+".gif";
+    boots = new Image()
+    boots.src = "/index/files/char/"+props['image']+"/"+props['gender']+"/"+props['equipment'][8]+".gif";
+    body.attr('src',"/index/files/char/"+props['image']+"/"+props['gender']+"/char.gif");
+    body.attr('border',0);
+    //combine
+    body = body.pixastic("blend", {amount : 1,mode : "normal",image : pants})
+               .pixastic("blend", {amount : 1,mode : "normal",image : boots})
+               .pixastic("blend", {amount : 1,mode : "normal",image : greaves})
+               .pixastic("blend", {amount : 1,mode : "normal",image : shirt})
+               .pixastic("blend", {amount : 1,mode : "normal",image : gloves})
+               .pixastic("blend", {amount : 1,mode : "normal",image : armor})
+               .pixastic("blend", {amount : 1,mode : "normal",image : pauldrons})
+               .pixastic("blend", {amount : 1,mode : "normal",image : hat})
+               .pixastic("blend", {amount : 1,mode : "normal",image : weapon})
+               .pixastic("blend", {amount : 1,mode : "normal",image : hair})
+               .pixastic("blend", {amount : 1,mode : "normal",image : beard});
+               
+    //convert to display dimensions
+    body.css('height',h0);
+    body.css('width',w0);
+}
+
+function drawSprites(){
+    for(i=0;i<regcount;i++) combine(registered[i]);
+}
+
+window.onload = function(){
+    document.body.style.cursor = 'url("http://gcv4.s3.amazonaws.com/files/misc/'+action+'.gif")';
+    document.getElementById('peole').innerHTML='{{p_inner|safe}}';
+}
+
+function ajaxReq(url){
+    new Ajax.Request(url,{method: 'get'});
+}
+
+//Auto Updaters
+var pu = new Ajax.PeriodicalUpdater('peole', '/index/getlist/{{current.id}}/', {
+  method: 'get',
+  frequency: 1,
+  decay: 1,
+  insertion: Insertion.Bottom,
+  on410: function(){window.location.href='/index/';},
+  on200: function(d){
+      jQuery("msgContent").innerText='';
+      new Ajax.Request("/index/notify/",{method: 'get',
+        onSuccess: function(data){
+                if(data.responseText!="null"){
+                    document.getElementById("msgContent").innerHTML=data.responseText;
+                    showMessage('info');
+                }
+        }
+      });
+      document.getElementById('peole').innerHTML='';
+  },
+  on401: function(){pu.stop();window.location.href='/index/';}
+});
+{%ifequal current.category "inner"%}
+var pcheck= new Ajax.PeriodicalUpdater('dummy', '/index/cell/check/{{current.name}}/{{current_time}}/', {
+  method: 'get',
+  frequency: 60,
+  decay: 1,
+  on410: function(){pcheck.stop();window.location.href='/index/';}
+});
+{%endifequal%}
+//ipad and iphone check:
+var appleShit = false;
+
+if((navigator.userAgent.match(/iPhone/i)) || (navigator.userAgent.match(/iPad/i))) {
+   appleShit=true;
+}
+
+function castMagic(id){}
+
+function resting(x,y){}
+
+function rest(){
+    if(action=='idle') action='rest';
+	else action='idle';
+    new Ajax.Request('/index/char/rest/',{method: 'get'});
+	return true;
+}
+
+function sendCursorPos(elementID, e) {
+  var offset = jQuery('#'+elementID).offset();
+  evt = e || window.event;
+  var x = Math.round(evt.pageX - offset.left);
+  //(window.event.pageY - offset.top - {{current.horizon}}-(ocument.getElementById('char22').height*12/11))*{{current.depth}}/216 = self.y
+  var y = Math.round((evt.pageY - offset.top - {{current.horizon}}+(document.getElementById('char{{my_id}}').height*1/11))*{{current.depth}}/214);
+  if(!(action=='idle')){
+    action='idle';
+    new Ajax.Request('/index/sendpos/'+x+'/'+y+'/',{method: 'get'});
+  }
+  document.body.style.cursor = 'url("http://gcv4.s3.amazonaws.com/files/misc/'+action+'.gif")';
+}
+</script>
+
+<style>
+    #tooltip{
+        position:absolute;
+        border:1px solid #333;
+        background:#f7f5d1;
+        padding:2px 5px;
+        color:#333;
+        display:none;
+	}
+</style>
+
+</head>
+<body text="#000000" bgcolor="#FFFFFF" link="#0000FF" alink="#FF0000" vlink="#800080" onselectstart="return false">
+
+<div class="info message" style="z-index:9999">
+   <h3 id="msgHeader">Notification!</h3>
+   <p id="msgContent">This is just an info notification message.</p>
+</div>
+
+<div id="all" style="position: relative; margin-left: auto;margin-right: auto;vertical-align:middle;width: 57em;top:50%; margin-top:-280px;">
+<div id="cellInfo" style="position: absolute; left: 10px; top: 8px; width: 750px; height: 16px; text-align: justify;">
+    <span>You are currently in <i>"{{current.name}}"</i>. Today is {{today}}</span>
+</div>
+<div id="sky_container" style="position: absolute; left: 10px; top: 30px;" align="left">
+    {%ifequal current.category "outer"%}
+        <img id="sky" name="sky" src="http://gcv4.s3.amazonaws.com/files/air/{{current_time}}.jpg" width="703" height="365" border="0" alt="">
+    {%else%}
+        <img id="sky" name="sky" src="http://gcv4.s3.amazonaws.com/files/air/{{current_time}}.jpg" style="position:absolute;top:80px;" width="703" height="295" border="0" alt="">
+    {%endifequal%}
+</div>
+<div id="ldhePicture1" style="position: absolute; left: 10px; top: 29px;" align="left">
+	<img id="Picture1" name="Picture1" src="http://gcv4.s3.amazonaws.com/files/place/{{visual}}.png" width="703" height="514" border="0" alt="">
+	
+    <div id="shader" style="position: absolute; left: 0px; top: 0px;" align="left">
+        {%ifequal current.category "outer"%}
+                <img id="shade" style="opacity:{{luminance}};filter:alpha(opacity={{lpercent}});"  onclick="sendCursorPos('shade',event);"
+                name="shader" src="http://gcv4.s3.amazonaws.com/files/air/shade.png" width="703" height="514" border="0">
+        {%else%}
+                <img id="shade" onclick="sendCursorPos('shade',event);" src="http://gcv4.s3.amazonaws.com/files/blank.gif" width="703" height="514" border="0">
+        {%endifequal%}
+    </div>   
+    
+    <div id="version" style="position: absolute; right: 0px; top: 100%;">
+        <span style="font-family: Verdana, Arial, Helvetica, sans-serif;color: white; font-size: 10px;">
+            gcv4 v0.7.5.1 alpha 
+        </span>
+        <span style="font-family: Verdana, Arial, Helvetica, sans-serif; color: white; font-size: 10px;">
+            | <a class="link" href="http://gcv4.net/project/">project page</a>
+        </span>
+        <span style="font-family: Verdana, Arial, Helvetica, sans-serif; color: white; font-size: 10px;">
+            | <a class="link" href="http://gcv4.net/personal">about</a>
+        </span>
+    </div>
+
+    <div id="quickmenu" style="position:absolute;display:inline;left:0%;top:100%;width:200px;" align="left">
+        <div ondrop="drop(event);" ondragenter="return false;" ondragover="return false;" style="font-family: Verdana, Helvetica,sans-serif;background-color:#aacadd;color:black;font-size:12px;width:72px;height:20px;align:center;cursor:default;">
+            <a href="/index/cpanel/" class="cBox" style="text-decoration:none;color:black;position:relative;top:20%;height:20px;;outline:0;" >
+                <span class="link" style="font-family: Verdana;font-weight:bold;width:100%;">Character&nbsp;&nbsp;</span>
+            </a>	
+		</div>
+        <div style="position:absolute;top:0px;left:74px;font-family: Verdana, Helvetica,sans-serif;background-color:#aacadd;color:black;font-size:12px;width:45px;height:20px;align:center;cursor:default;;outline: 0;">
+			<span class="link" style="font-family: Verdana, Helvetica,sans-serif;font-weight:bold;position:relative;top:20%;height:20px;" onclick="wander();document.body.style.cursor = 'url(move)';">&nbsp;Walk&nbsp;</span> 
+	    </div>
+        <div style="position:absolute;top:0px;left:121px;font-family: Verdana, Helvetica,sans-serif;background-color:#aacadd;color:black;font-size:12px;width:45px;height:20px;align:center;cursor:default;">
+			<span class="link" style="font-family: Verdana, Helvetica,sans-serif;font-weight:bold;position:relative;top:20%;height:20px;" onclick="rest();">&nbsp;Rest&nbsp;</span> 
+	    </div> 
+        <div id="box" style="font-family: Verdana, Helvetica,sans-serif;background-color:#aacadd;color:black;font-size:12px;width:45px;height:20px;position:absolute;left:168px;top:0px;align:center;cursor:default;
+                             display:block;float:left;overflow:hidden;;outline: 0;">
+            <form method="post" action="" onsubmit="send_form();this.reset();return false;" style="position:relative;top:20%;height:8px;">
+                <span  id="box_link" class="link" style="font-family: Verdana, Helvetica,sans-serif;font-weight:bold;">Shout&nbsp;&nbsp;</span>
+                <input id="shouttext" type="text" style="position: absolute; left:48px;top:-3px; width:340px;font-family:Verdana;font-size:10px;" autocomplete="off" value=""></input>
+            </form>
+        </div>
+    </div>
+    
+</div>
+{%ifequal state -1%}
+<div id="sadfgh" style="position: absolute; left: 10px; top: 29px;" align="left">
+
+    <img id="lux" style="opacity:0.4;filter:alpha(opacity=0.1);"
+    name="lux" src="http://gcv4.s3.amazonaws.com/files/air/lux.png" width="703" height="514" border="0"
+    onload="jQuery(this).pixastic('blurfast',{amount:0.6});">
+</div>
+{%endifequal%} 
+<div id="peole" style="position: absolute; left: 10px; top: 29px;" align="left">
+</div> 
+{%ifequal current.category "outer"%}
+<div id="Static" style="position: absolute;left:10px;top:27px;width:165px;height:514px;z-index:500;" align="left">
+    <img id="sign" style="position: absolute;left:15px;top:260px;"name="Picture1" src="/index/files/item/road_sign.gif" onload="jQuery(this).pixastic('brightness',{brightness:(-120*{{luminance}}),contrast:0});" border="0" alt=""></div>
+<div id="ldheGotoCmb1" style="position: absolute; left: 41px; top: 299px;z-index:500;" align="left">
+<select id="GotoCmb1" name="GotoCmb1" style="width: 110px;" onchange="jsComboLink(this);">
+<option selected>Go to...</option>
+{%for e in current.connection.all%}
+<option value="/index/travel/{{e.id}}[*]">{{e.name}}</option>
+{%endfor%}
+</select></div>
+{%endifequal%}
+
+<div id="harvestings" style="position: absolute; left: -5px; top: 35px;" align="left">
+    {%for e in current.harvests.all%}
+         <a href="/index/harvest/{{e.id}}/" class="hBox" style="text-decoration:none;position:relative;left:20px;;outline:0;z-index:501;" title="{{e.name}}">
+            <img src="http://gcv4.s3.amazonaws.com/files/item/{{e.handler}}.gif" border="0"></img>
+         </a>
+    {%empty%}    
+    {%endfor%}
+</div>
+</div>
+<div id="dummy"></div>
+</body>
+</html>

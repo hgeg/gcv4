@@ -1,0 +1,92 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>gcv4 | dev | alpha</title>
+<meta http-equiv="Type" type="text/javascript">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-4" />
+
+<link type="text/css" media="screen" rel="stylesheet" href="http://gcv4.s3.amazonaws.com/files/style/colorbox.css" />
+<link type="text/css" rel="stylesheet" href="http://gcv4.s3.amazonaws.com/files/style/render.css"/>
+
+<style type="text/css">
+         html, body   { background-color: #101010; height: 100%; margin: 0; padding: 0;
+                        font-family: Verdana;color: white; font-size: 13px; text-align: center; }
+         span.tus:hover {}
+</style>
+
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.js"></script>
+<script type="text/javascript" src="http://gcv4.s3.amazonaws.com/files/script/pixastic.custom.js"></script>
+<script type="text/javascript" src="http://gcv4.s3.amazonaws.com/files/script/jquery.colorbox.js"></script>
+<script type="text/javascript" src="http://gcv4.s3.amazonaws.com/files/script/render.js"></script>
+
+<script language="javascript">
+    var count = {{distance}};
+    window.onload = function(){document.getElementById('peole').innerHTML='{{p_inner|safe}}';}
+
+    //jQuery countdown script
+    //Thanks to Jonathan Simpson
+    //http://stackoverflow.com/questions/2064186/how-can-i-make-a-jquery-countdown
+    
+    window.onload = function(){
+        if(count>0){
+            countdown = setInterval(function(){
+                jQuery("span.countdown").html(count + " seconds remaining!");
+                if (count <= 0) {
+                  window.location = '/index/arrive/';
+                }else{count--;}
+            }, 1000);
+        }else{
+            jQuery("p.countdown").html("Waiting...");
+        }
+    };
+
+</script>
+
+</head>
+<body text="#000000" bgcolor="#FFFFFF" link="#0000FF" alink="#FF0000" vlink="#800080" >
+<div id="all" style="position: relative; margin-left: auto;margin-right: auto;vertical-align:middle;width: 57em;top:50%; margin-top:-280px;">
+<div id="cellInfo" style="position: absolute; left: 10px; top: 8px; width:950px; height: 16px; text-align: justify;">
+    <span>You are travelling{%if current%} from <i>"{{current.name}}"</i>{%endif%} to <i>"{{dest.name}}"</i>. Today is {{today}}</span>
+</div>
+<div id="ldhePicture1" style="position: absolute; left: 10px; top: 29px;" align="left">
+	<img id="Picture1" name="Picture1" src="http://gcv4.s3.amazonaws.com/files/place/on_the_road.jpg" width="703" height="514" border="0" alt="">
+    
+    <div id="version" style="position: absolute; right: 0px; top: 100%;">
+        <span style="font-family: Verdana, Arial, Helvetica, sans-serif;color: white; font-size: 10px;">
+            gcv4 v0.7.5.1 alpha 
+        </span>
+        <span style="font-family: Verdana, Arial, Helvetica, sans-serif; color: white; font-size: 10px;">
+            | <a class="link" href="http://gcv4.net/project/">project page</a>
+        </span>
+        <span style="font-family: Verdana, Arial, Helvetica, sans-serif; color: white; font-size: 10px;">
+            | <a class="link" href="http://gcv4.net/personal/">about</a>
+        </span>
+    </div>
+
+    <div id="quickmenu" style="position:absolute;display:inline;left:0%;top:100%;width:200px;" align="left">
+        <div ondrop="drop(event);" ondragenter="return false;" ondragover="return false;" style="font-family: Verdana, Helvetica,sans-serif;background-color:#aacadd;color:black;font-size:12px;width:72px;height:20px;align:center;cursor:default;">
+            <a href="/index/cpanel/" class="cBox" style="text-decoration:none;color:black;position:relative;top:20%;height:20px;" >
+                <span class="link" style="font-family: Verdana, Helvetica,sans-serif;font-weight:bold;width:100%;">Character&nbsp;&nbsp;</span>
+            </a>	
+		</div>
+        <div style="position:absolute;top:0px;left:74px;font-family: Verdana, Helvetica,sans-serif;background-color:#aacadd;color:black;font-size:12px;width:200px;height:20px;align:center;cursor:default;">
+			<form name="Form2" method="post" action="/index/interact/exchange:npc/" id="Form2">
+                &nbsp;<span id="countdown" class="countdown" style="position:absolute;top:2px;left:5px;">Starting...</p>
+            </form>
+        </div>
+    </div>
+    
+</div>
+{%ifequal state -1%}
+<div id="sadfgh" style="position: absolute; left: 10px; top: 29px;" align="left">
+
+    <img id="lux" style="opacity:0.4;filter:alpha(opacity=0.1);"
+    name="lux" src="http://gcv4.s3.amazonaws.com/files/air/lux.png" width="703" height="514" border="0"
+    onload="jQuery(this).pixastic('blurfast',{amount:0.6});">
+</div>
+{%endifequal%} 
+</div>
+</body>
+</html>

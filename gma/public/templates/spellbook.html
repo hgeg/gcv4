@@ -1,0 +1,42 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>spellbook</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<script type="text/javascript" src="http://gcv4.s3.amazonaws.com/files/script/jquery-1.4.2.js"></script>
+<script type="text/javascript" src="http://gcv4.s3.amazonaws.com/files/script/jquery.colorbox-min.js"></script>
+<script type="text/javascript">
+</script>
+<style type="text/css">
+body {margin: 0px; padding: 0px; scrollbar-base-color: #3895ca}
+.btns {border: 0px #000000 groove; background-color: #3895ca; color: 
+#FFFFFF; 
+font-family: Arial, Tahoma, Helvetica, sans-serif; font-size: 11px; font-weight: bold; text-decoration: none;}
+.inv {border: 4px #000000 double; background-color: #FBFDFF; text-decoration: none;}
+.invs {border: 2px #C0E3FF solid; background-color: #FBFDFF; font-family: "Trebuchet MS", Arial, Verdana, sans-serif; font-size: 11px; font-weight: bold; text-decoration: none;}
+.verdana80FFFFFFt {font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 11px; color: #000000; text-decoration: none;}
+</style>
+</head>
+<body text="#000000" bgcolor="#FFFFFF" link="#0000FF" alink="#FF0000" vlink="#800080">
+
+<div id="all" style="position: absolute; left: -3px; top: -30px;" align="left">
+    <form id="Form1" name="Form1" style="position: absolute; left: 0px; top: 0px;" method="POST" action="/index/spell_act/" >
+        <div id="ldhespellbook" style="position: absolute; left: 8px; top: 45px;" align="left">
+            <div id="spl_list" name="spellbook" style="width: 280px; height: 190px;" class="invs">
+                {%for spell in spellbook%}
+                <span style="">&#9679; {{spell.name}}:</span></br>
+                &nbsp;&nbsp;&nbsp;<span style="color:#827abb;font-size:10px">  {{spell.word}}</span></br>
+                {%endfor%}
+            </div>
+        </div>
+        <img src="http://gcv4.s3.amazonaws.com/files/cpanel/blank.gif" border="0" alt=""></img>
+    </form>
+    {%if state > 0%}
+    <div id="ff" style="position: absolute; left:223px; top:33px;width:300px">
+        <input type="button" onclick="parent.parent.jQuery.fn.colorbox({width:'750', height:'510', iframe:true, href:'/index/interact:return/',scrolling:false});" style="cursor:default;font-family:Verdana;font-size:10px;" value="Return"></input> 
+    </div>
+    {%endif%}
+</div>
+</body>
+</html>

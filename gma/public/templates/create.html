@@ -1,0 +1,478 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Create a character</title>
+<!-- Created with an unregistered copy of Dynamic HTML WYSIWYG Editor -->
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+
+<meta http-equiv="Content-Style-Type" content="text/css">
+<meta name="GENERATOR" content="Dynamic HTML Editor v.4.3 - http://www.hexagora.com">
+<script language="javascript" type="text/javascript">
+
+    var race,gender,raceVal;
+    statb = ['strb','intb','dexb','wisb','stab','lukb']
+   
+    bonus = {'Night Elf'    : ["-1","+2","","","-1","+1"],
+             'Human'        : ["+1","","-1","","+1",""],
+             'Orc'          : ["+3","","-1","-1","+1","-1"],
+             'High Elf'     : ["-1","+3","","+1","-2",""],
+             'Heartland Elf': ["-1","+1","","+2","-1",""]
+    }
+
+    s_att=[0,1]
+    s_def=[0,1]
+    s_flw=[0,1]
+    s_trt=[0,1]
+    s_prd=[0,1,2]
+    s_msc=[0,1,2,3]
+
+    function rmSel(item,type,id){
+
+        chosen = item.selectedIndex
+        eval('max=s_'+type+'.length;');
+        idx=id-1;
+        eval('k=s_'+type+'['+idx+'];')
+        for(i=0;i<max;i++){
+            imx=i+1
+            elem=document.getElementById(type+imx);
+            if(k>-1) elem.options[k].disabled=false;
+            if(i!=idx){
+                elem.options[chosen].disabled=true;
+            }
+        }
+        eval('s_'+type+'['+idx+']='+chosen+';')
+    }
+
+    function fetchImage(){
+        race = document.getElementById('race');
+        gender = document.getElementById('gender');
+        raceVal = race.options[race.selectedIndex].value;
+        character = document.getElementById('char_img')
+        genderVal = gender.options[gender.selectedIndex].value
+        character.src = 'http://gcv4.s3.amazonaws.com/files/char/'+raceVal+'/'+genderVal+'/char.gif';
+        container = document.getElementById('image_container');
+        container.style.top = (150-character.height)/2-4;
+        container.style.left = (80-character.width)/2-4;
+        document.getElementById('torso_img').src = 'http://gcv4.s3.amazonaws.com/files/char/'+raceVal+'/'+genderVal+'/Blue Shirt.gif';
+        document.getElementById('pants_img').src = 'http://gcv4.s3.amazonaws.com/files/char/'+raceVal+'/'+genderVal+'/Leather Pants.gif';
+        document.getElementById('boots_img').src = 'http://gcv4.s3.amazonaws.com/files/char/'+raceVal+'/'+genderVal+'/leather shoes.gif';
+        
+        
+        for(i=0;i<6;i++){
+            t = document.getElementById(statb[i])
+            if(bonus[raceVal][i]>0) t.style.color = "#25a235";
+            else t.style.color = "#e53235";
+            t.innerText = bonus[raceVal][i];
+        }
+    
+    }
+    
+    function fetchapp(){
+        race = document.getElementById('race');
+        gender = document.getElementById('gender');
+        raceVal = race.options[race.selectedIndex].value;
+        genderVal = gender.options[gender.selectedIndex].value;
+        beard = document.getElementById('beard');
+        hair = document.getElementById('hair');
+        hairVal = hair.value;
+        beardVal = beard.value;
+        character = document.getElementById('char_img');
+        document.getElementById('beard_img').src = 'http://gcv4.s3.amazonaws.com/files/char/'+raceVal+'/'+genderVal+'/appereance/h'+hairVal+'.gif';
+        document.getElementById('hair_img').src = 'http://gcv4.s3.amazonaws.com/files/char/'+raceVal+'/'+genderVal+'/appereance/b'+beardVal+'.gif';
+        
+        
+        for(i=0;i<6;i++){
+            t = document.getElementById(statb[i])
+            if(bonus[raceVal][i]>0) t.style.color = "#25a235";
+            else t.style.color = "#e53235";
+            t.innerText = bonus[raceVal][i];
+        }
+    
+    }
+    
+    function random(n) { return Math.floor(Math.random()*(n+1)); }
+    
+    function roll() {
+        str = document.getElementById('str');
+        intl= document.getElementById('int');
+        dex = document.getElementById('dex');
+        wis = document.getElementById('wis');
+        sta = document.getElementById('sta');
+        luk = document.getElementById('luk');
+        var dist = new Array(1,1,1,1,1,1);
+        for(i=0;i<6;i++) dist[random(5)]+=1;
+        str.value = dist[0];
+        int.value = dist[1];
+        dex.value = dist[2];
+        wis.value = dist[3];
+        sta.value = dist[4];
+        luk.value = dist[5];
+        return false;
+    }
+        
+    function rgDecide(){
+        race = document.getElementById('race');
+        gender = document.getElementById('gender');
+        raceVal = race.options[race.selectedIndex].value;
+        if(raceVal == 'Human' || raceVal == 'Orc'){
+            gender.innerHTML = '<option value="m">Male</option>'
+        }else if(raceVal == 'High Elf'){
+            gender.innerHTML = '<option value="f">Female</option>'
+        }else if(raceVal == 'Night Elf'){
+            gender.innerHTML = '<option value="m">Male</option><option value="f">Female</option>'
+        }
+        fetchImage();
+    }
+    
+</script>
+
+<style>
+body {margin: 0px; padding: 0px;}
+.verdana100FFFFFFt {font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px; color: #153265; text-decoration: none;}
+.verdanab{font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px; color: #25a235; text-decoration: none;}
+.verdanad{font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px; color: #e53235; text-decoration: none;}
+.verdana80FFFFFFt  {font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 10px; color: #153265; text-decoration: none;}
+.verdana120FFFFFFt {font-family: Verdana, Arial, Helvetica, sans-serif; font-weight:bold; font-size: 16px; color: #000000; text-decoration: none;}
+</style>
+
+</head>
+<body text="#000000" bgcolor="#7795a5" link="#0000FF" alink="#FF0000" vlink="#800080" onselectstart="return false;">
+<div id="ldheGrLabel1" style="position: absolute; left: 5px; top: 10px;width:430" align="center">
+<span class="Verdana120FFFFFFt" align="center">Create a character:<br></span></div>
+<form id="Form1" name="Form1" style="position: absolute; left: 2px; top: 47px;" action="/index/save/" method="post">
+    
+    <div id="nrgp" style="position: absolute; left: 7px; top:0px;width: 180px; height: 85px;box-shadow: 3px 3px 7px #111;border: 1px solid #999;border-radius:5px;background-color:#ddd;padding:0px 10px 10px 20px;line-height:8px;" align="left">
+           
+        <div id="ldheLabel28" style="position: absolute; left: 5px; top: 14px; width: 43px; height: 19px; text-align: left;" align="left">
+        <span class="Verdana100FFFFFFt">&nbsp;&nbsp;Name:<br></span></div>
+        <div id="ldhename" style="position: absolute; left: 60px; top: 6px;" align="left">
+        <input type="text" id="name" name="name" style="width: 134px; height: 22px;" value="" maxlength="30"></div>
+        
+        <div id="ldheLabel1" style="position: absolute; left: 8px; top: 43px; width: 48px; height: 19px; text-align: left;" align="left">
+        <span class="Verdana100FFFFFFt">&nbsp;&nbsp;Race:</span></div>
+        <div id="ldherace" style="position: absolute; left: 60px; top: 35px;" align="left">
+        <select id="race" name="race" style="width: 134px;" onchange="rgDecide();">
+        <option value="Night Elf" selected>Night Elf</option>
+        <option value="Human">Human</option>
+        <option value="Heartland Elf">Heartland Elf</option>
+        <option value="High Elf">High Elf</option>
+        <option value="Orc">Orc</option>
+        </select></div>
+        
+        <div id="ldheLabel47" style="position: absolute; left: 4px; top: 74px; width: 42px; height: 19px;" align="left">
+        <span class="Verdana100FFFFFFt">Gender:<br></span></div>
+        <div id="ldhegender" style="position: absolute; left: 60px; top: 66px;" align="left">
+        <select id="gender" name="gender" style="width: 133px;" onchange="fetchImage();">
+        <option value="m">Male</option>
+        <option value="f">Female</option>
+        </select></div>
+    
+    </div>
+    
+    <div id="sp" style="position: absolute; left: 7px; top:105px;width: 180px; height: 365px;box-shadow: 3px 3px 7px #111;border: 1px solid #999;border-radius:5px;background-color:#ddd;padding:0px 10px 10px 20px;line-height:8px;" align="left">
+  
+        
+        <div id="ldheLabel1" style="position: absolute; left: 5px; top: 10px; width: 48px; height: 19px; text-align: left;" align="left">
+        <span class="Verdana100FFFFFFt">Skills:</span></div>
+        <div id="ldheLabel1" style="position: absolute; left: 20px; top: 30px; width: 140px; height: 19px; text-align: left;" align="left">
+        <span class="Verdana100FFFFFFt">Offensive Skills:</span></div> 
+        <div id="ldheatt1" style="position: absolute; left: 20px; top: 40px;" align="left">
+        <select id="att1" name="attack1" style="width: 154px;" onchange="rmSel(this,'att',1);">
+        <option value="Swordmanship" selected>Swordmanship</option>
+        <option value="Blunt Weapons" disabled>Blunt Weapons</option>
+        <option value="Marksmanship">Marksmanship</option>
+        <option value="Destruction">Destruction</option>
+        <option value="Malediction">Malediction</option>
+        <option value="Mentalism">Mentalism</option>
+        </select></div>
+        
+        <div id="ldheatt1" style="position: absolute; left: 20px; top: 60px;" align="left">
+        <select id="att2" name="attack2" style="width: 154px;" onchange="rmSel(this,'att',2);">
+        <option value="Swordmanship" disabled>Swordmanship</option>
+        <option value="Blunt Weapons" selected>Blunt Weapons</option>
+        <option value="Marksmanship">Marksmanship</option>
+        <option value="Destruction">Destruction</option>
+        <option value="Malediction">Malediction</option>
+        <option value="Mentalism">Mentalism</option>
+        </select></div>
+        
+        <div id="ldheLabel1" style="position: absolute; left: 20px; top: 90px; width: 180px; height: 19px; text-align: left;" align="left">
+        <span class="Verdana100FFFFFFt">Defensive/Passive Skills:</span></div> 
+        <div id="ldheatt1" style="position: absolute; left: 20px; top: 100px;" align="left">
+        <select id="def1" name="defence1" style="width: 154px;" onchange="rmSel(this,'def',1);">
+        <option value="Armor" selected>Armor</option>
+        <option value="Dodging" disabled>Dodging</option>
+        <option value="Medicine">Medicine</option>
+        <option value="Restoration">Restoration</option>
+        <option value="Mysticism">Mysticsm</option>
+        <option value="Alteration">Alchemy</option>
+        </select></div>
+        
+        <div id="ldheatt1" style="position: absolute; left: 20px; top: 120px;" align="left">
+        <select id="def2" name="defence2" style="width: 154px;" onchange="rmSel(this,'def',2);">
+        <option value="Armor" disabled>Armor</option>
+        <option value="Dodging" selected>Dodging</option>
+        <option value="Medicine">Medicine</option>
+        <option value="Restoration">Restoration</option>
+        <option value="Mysticism">Mysticsm</option>
+        <option value="Alteration">Alchemy</option>
+        </select></div>
+        
+        <div id="ldheLabel1" style="position: absolute; left: 20px; top: 150px; width: 220px; height: 19px; text-align: left;" align="left">
+        <span class="Verdana100FFFFFFt">Productive/Creative Skills:</span></div> 
+        <div id="ldheatt1" style="position: absolute; left: 20px; top: 160px;" align="left">
+        <select id="prd1" name="productive1" style="width: 154px;" onchange="rmSel(this,'prd',1);">
+        <option value="Tailoring" selected>Tailoring</option>
+        <option value="Carpentry" disabled>Carpentry</option>
+        <option value="Cooking" disabled>Cooking</option>
+        <option value="Blacksmith">Blacksmith</option>
+        <option value="Jewelcrafting">Jewelcrafting</option>
+        <option value="Engineering">Engineering</option>
+        <option value="Painting">Painting</option>
+        <option value="Musicianship">Musicianship</option>
+        <option value="Writing">Writing</option>
+        <option value="Alchemy">Alchemy</option>
+        <option value="Enchantment">Enchantment</option>
+        </select></div>
+        
+        <div id="ldheatt1" style="position: absolute; left: 20px; top: 180px;" align="left">
+        <select id="prd2" name="productive2" style="width: 154px;"onchange="rmSel(this,'prd',2);">
+        <option value="Tailoring" disabled>Tailoring</option>
+        <option value="Carpentry" selected>Carpentry</option>
+        <option value="Cooking" disabled>Cooking</option>
+        <option value="Blacksmith">Blacksmith</option>
+        <option value="Jewelcrafting">Jewelcrafting</option>
+        <option value="Engineering">Engineering</option>
+        <option value="Painting">Painting</option>
+        <option value="Musicianship">Musicianship</option>
+        <option value="Writing">Writing</option>
+        <option value="Alchemy">Alchemy</option>
+        <option value="Enchantment">Enchantment</option>
+        </select></div>
+        
+        <div id="ldheatt1" style="position: absolute; left: 20px; top: 200px;" align="left">
+        <select id="prd3" name="productive3" style="width: 154px;"onchange="rmSel(this,'prd',3);">
+        <option value="Tailoring" disabled>Tailoring</option>
+        <option value="Carpentry" disabled>Carpentry</option>
+        <option value="Cooking" selected>Cooking</option>
+        <option value="Blacksmith">Blacksmith</option>
+        <option value="Jewelcrafting">Jewelcrafting</option>
+        <option value="Engineering">Engineering</option>
+        <option value="Painting">Painting</option>
+        <option value="Musicianship">Musicianship</option>
+        <option value="Writing">Writing</option>
+        <option value="Alchemy">Alchemy</option>
+        <option value="Enchantment">Enchantment</option>
+        </select></div>
+        
+        <div id="ldheLabel1" style="position: absolute; left: 20px; top: 230px; width: 140px; height: 19px; text-align: left;" align="left">
+        <span class="Verdana100FFFFFFt">Harvesting Skill:</span></div> 
+        <div id="ldheatt1" style="position: absolute; left: 20px; top: 240px;" align="left">
+        <select id="har" name="harvest" style="width: 154px;">
+        <option value="Mining" selected>Mining</option>
+        <option value="Fishing">Fishing</option>
+        <option value="Lumberjack">Lumberjack</option>
+        <option value="Gardening">Gardening</option>
+        </select></div>
+
+        <div id="ldheLabel1" style="position: absolute; left: 20px; top: 270px; width: 140px; height: 19px; text-align: left;" align="left">
+        <span class="Verdana100FFFFFFt">Misc. Skills:</span></div>  
+        <div id="ldheatt1" style="position: absolute; left: 20px; top: 280px;" align="left">
+        <select id="msc1" name="misc1" style="width: 154px;" onchange="rmSel(this,'msc',1);">
+        <option value="Acrobatics" selected>Acrobatics</option>
+        <option value="Locksmith" disabled>Locksmith</option>
+        <option value="Merchantile" disabled>Merchantile</option>
+        <option value="Teaching" disabled>Teaching</option>
+        <option value="Diplomacy">Diplomacy</option>
+        <option value="Herbalism">Herbalism</option>
+        <option value="Swimming">Swimming</option>
+        <option value="Elven">Elven</option>
+        <option value="Orcish">Orcish</option>
+        <option value="Dwarven">Dwarven</option>
+        <option value="Imperial">Imperial</option>
+        <option value="Dragonic">Dragonic</option>
+        <option value="Survival">Survival</option>
+        <option value="Riding">Riding</option>
+        <option value="Charming">Charming</option>
+        <option value="Necromancy">Necromancy</option>
+        <option value="Lawmanship">Lawmanship</option>
+        <option value="Forgery">Forgery</option>
+        <option value="Tracking">Tracking</option>
+        <option value="Tactics">Tactics</option>
+        <option value="Reading">Reading</option>
+        <option value="Navigation">Navigation</option>
+        </select></div>
+        
+        <div id="ldheatt1" style="position: absolute; left: 20px; top: 300px;" align="left">
+        <select id="msc2" name="misc2" style="width: 154px;" onchange="rmSel(this,'msc',2);">
+        <option value="Acrobatics" disabled>Acrobatics</option>
+        <option value="Locksmith" selected>Locksmith</option>
+        <option value="Merchantile" disabled>Merchantile</option>
+        <option value="Teaching" disabled>Teaching</option>
+        <option value="Diplomacy">Diplomacy</option>
+        <option value="Herbalism">Herbalism</option>
+        <option value="Swimming">Swimming</option>
+        <option value="Elven">Elven</option>
+        <option value="Orcish">Orcish</option>
+        <option value="Dwarven">Dwarven</option>
+        <option value="Imperial">Imperial</option>
+        <option value="Dragonic">Dragonic</option>
+        <option value="Survival">Survival</option>
+        <option value="Riding">Riding</option>
+        <option value="Charming">Charming</option>
+        <option value="Necromancy">Necromancy</option>
+        <option value="Lawmanship">Lawmanship</option>
+        <option value="Forgery">Forgery</option>
+        <option value="Tracking">Tracking</option>
+        <option value="Tactics">Tactics</option>
+        <option value="Reading">Reading</option>
+        <option value="Navigation">Navigation</option>
+        </select></div>
+        
+        <div id="ldheatt1" style="position: absolute; left: 20px; top: 320px;" align="left">
+        <select id="msc3" name="misc3" style="width: 154px;" onchange="rmSel(this,'msc',3);">
+        <option value="Acrobatics" disabled>Acrobatics</option>
+        <option value="Locksmith" disabled>Locksmith</option>
+        <option value="Merchantile" selected>Merchantile</option>
+        <option value="Teaching" disabled>Teaching</option>
+        <option value="Diplomacy">Diplomacy</option>
+        <option value="Herbalism">Herbalism</option>
+        <option value="Swimming">Swimming</option>
+        <option value="Elven">Elven</option>
+        <option value="Orcish">Orcish</option>
+        <option value="Dwarven">Dwarven</option>
+        <option value="Imperial">Imperial</option>
+        <option value="Dragonic">Dragonic</option>
+        <option value="Survival">Survival</option>
+        <option value="Riding">Riding</option>
+        <option value="Charming">Charming</option>
+        <option value="Necromancy">Necromancy</option>
+        <option value="Lawmanship">Lawmanship</option>
+        <option value="Forgery">Forgery</option>
+        <option value="Tracking">Tracking</option>
+        <option value="Tactics">Tactics</option>
+        <option value="Reading">Reading</option>
+        <option value="Navigation">Navigation</option>
+        </select></div>
+        
+        <div id="ldheatt1" style="position: absolute; left: 20px; top: 340px;" align="left">
+        <select id="msc4" name="misc4" style="width: 154px;" onchange="rmSel(this,'msc',4);">
+        <option value="Acrobatics" disabled>Acrobatics</option>
+        <option value="Locksmith" disabled>Locksmith</option>
+        <option value="Merchantile" disabled>Merchantile</option>
+        <option value="Teaching" selected>Teaching</option>
+        <option value="Diplomacy">Diplomacy</option>
+        <option value="Herbalism">Herbalism</option>
+        <option value="Swimming">Swimming</option>
+        <option value="Elven">Elven</option>
+        <option value="Orcish">Orcish</option>
+        <option value="Dwarven">Dwarven</option>
+        <option value="Imperial">Imperial</option>
+        <option value="Dragonic">Dragonic</option>
+        <option value="Survival">Survival</option>
+        <option value="Riding">Riding</option>
+        <option value="Charming">Charming</option>
+        <option value="Necromancy">Necromancy</option>
+        <option value="Lawmanship">Lawmanship</option>
+        <option value="Forgery">Forgery</option>
+        <option value="Tracking">Tracking</option>
+        <option value="Tactics">Tactics</option>
+        <option value="Reading">Reading</option>
+        <option value="Navigation">Navigation</option>
+        </select></div>
+    
+    </div>
+    <div id="ftp" style="position: absolute; left: 230px; top:255px;width: 180px; height: 135px;box-shadow: 3px 3px 7px #111;border: 1px solid #999;border-radius:5px;background-color:#ddd;padding:0px 10px 10px 20px;line-height:8px;" align="left">
+          
+        <div id="ldheLabel1" style="position: absolute; left: 20px; top: 10px; width: 140px; height: 19px; text-align: left;" align="left">
+        <span class="Verdana100FFFFFFt">Flaws&amp;Traits:</span></div>  
+        <div id="ldheatt1" style="position: absolute; left: 20px; top: 20px;" align="left">
+        <select id="flw1" name="flaw1" style="width: 154px;" onchange="rmSel(this,'flw',1);">
+        <option value="Claustrophobia" selected>Claustrophobia</option>
+        <option value="Pyrophobia" disabled>Pyrophobia</option>
+        <option value="Hydrophobia">Hydrophobia</option>
+        <option value="Agoraphobia">Agoraphobia</option>
+        <option value="Hemophilia">Hemophilia</option>
+        <option value="Coeliac disease">Coeliac disease</option>
+        <option value="Diabetes">Diabetes</option>
+        <option value="Lameness">Lameness</option>
+        <option value="Alcoholism">Alcoholism</option>
+        <option value="Autism">Autism</option>
+        <option value="Allergy">Allergy</option>
+        <option value="Frailness">Frailness</option>
+        <option value="Depression">Depression</option>
+        </select></div>
+        
+        <div id="ldheatt1" style="position: absolute; left: 20px; top: 40px;" align="left">
+        <select id="flw2" name="flaw2" style="width: 154px;" onchange="rmSel(this,'flw',2);">
+        <option value="Claustrophobia" disabled>Claustrophobia</option>
+        <option value="Pyrophobia" selected>Pyrophobia</option>
+        <option value="Hydrophobia">Hydrophobia</option>
+        <option value="Agoraphobia">Agoraphobia</option>
+        <option value="Hemophilia">Hemophilia</option>
+        <option value="Coeliac disease">Coeliac disease</option>
+        <option value="Diabetes">Diabetes</option>
+        <option value="Lameness">Lameness</option>
+        <option value="Alcoholism">Alcoholism</option>
+        <option value="Autism">Autism</option>
+        <option value="Allergy">Allergy</option>
+        <option value="Frailness">Frailness</option>
+        <option value="Depression">Depression</option>
+        </select></div>
+        
+        <div id="ldheatt1" style="position: absolute; left: 20px; top: 80px;" align="left">
+        <select id="trt1" name="trait1" style="width: 154px;" onchange="rmSel(this,'trt',1);">
+        <option value="Hyperimmunity" selected>Hyperimmunity</option>
+        <option value="Meditation" disabled>Meditation</option>
+        <option value="Luck">Luck</option>
+        <option value="Posion Resistance">Posion Resistance</option>
+        <option value="Regeneration">Regeneration</option>
+        <option value="Royal Blood">Royal Blood</option>
+        <option value="Strong Will">Strong Will</option>
+        </select></div>
+        
+        <div id="ldheatt1" style="position: absolute; left: 20px; top: 100px;" align="left">
+        <select id="trt2" name="trait2" style="width: 154px;" onchange="rmSel(this,'trt',2);">
+        <option value="Hyperimmunity" disabled>Hyperimmunity</option>
+        <option value="Meditation" selected>Meditation</option>
+        <option value="Luck">Luck</option>
+        <option value="Posion Resistance">Posion Resistance</option>
+        <option value="Regeneration">Regeneration</option>
+        <option value="Royal Blood">Royal Blood</option>
+        <option value="Strong Will">Strong Will</option>
+        </select></div>
+        
+    </div>
+    
+    <div id="charp" style="position: absolute; left: 230px; top: 0px;width: 80px; height: 150px;box-shadow: 3px 3px 7px #111;border: 1px solid #999;border-radius:5px;background-color:#ddd;" align="left">
+        <div style="position: absolute; left: 4px; top: 4px;width: 70px; height: 140px;box-shadow: -1px -1px 2px #000;border: 1px solid #999;border-radius:3px;background-color:#bbb;" id="pborder2">
+            <div style="position: absolute; left: 4px; top: 14px;" id="image_container">
+                <img id="shadow" style="position: absolute; left: 2px; top: 103px;width:53px;" src="http://gcv4.s3.amazonaws.com/files/air/shadow.png" border="0">
+                <img id="char_img" style="position: absolute; left: 0px; top: 0px;" src="http://gcv4.s3.amazonaws.com/files/char/Night Elf/m/char.gif" border="0">
+                <img id="pants_img" style="position: absolute; left: 0px; top: 0px;" src="http://gcv4.s3.amazonaws.com/files/char/Night Elf/m/Leather Pants.gif" border="0">
+                <img id="torso_img" style="position: absolute; left: 0px; top: 0px;" src="http://gcv4.s3.amazonaws.com/files/char/Night Elf/m/Blue Shirt.gif" border="0">
+                <img id="boots_img" style="position: absolute; left: 0px; top: 0px;" src="http://gcv4.s3.amazonaws.com/files/char/Night Elf/m/leather shoes.gif" border="0">
+                <img id="beard_img" style="position: absolute; left: 0px; top: 0px;" src="http://gcv4.s3.amazonaws.com/files/char/Night Elf/m/blank.gif" border="0">
+                <img id="hair_img" style="position: absolute; left: 0px; top: 0px;" src="http://gcv4.s3.amazonaws.com/files/char/Night Elf/m/blank.gif" border="0">
+            </div>
+        </div>
+    </div>   
+    <div id="mmp" style="position: absolute; left: 230px; top: 160px;width: 190px; height: 75px;box-shadow: 3px 3px 7px #111;border: 1px solid #999;border-radius:5px;background-color:#ddd;padding:0px 0px 10px 20px;line-height:8px;" align="left">
+        <span class="Verdana80FFFFFFt" style="width:60px;">Hair:</span>  <input id="hair" name="hair" style="position:relative;top:8px;left:9px;" type="range" min="1" max="6" value="6" src="http://gcv4.s3.amazonaws.com/files/char/Night%20Elf/m/appereance/h6.gif" onchange="fetchapp();"></input>
+        <span class="Verdana80FFFFFFt" style="width:60px;">Face:</span>  <input id="face" name="face" style="position:relative;top:8px;left:7px;" type="range" min="1" max="3" value="3" src="http://gcv4.s3.amazonaws.com/files/char/Night%20Elf/m/appereance/f3.gif" onchange="fetchapp();"></input>
+        <span class="Verdana80FFFFFFt" style="width:60px;">Beard:</span> <input id="beard" name="beard" style="position:relative;top:8px;left:1px;" type="range" min="1" max="5" value="5" src="http://gcv4.s3.amazonaws.com/files/char/Night%20Elf/m/appereance/h5.gif" onchange="fetchapp();"></input>
+    </div>  
+    <div id="mmp" style="position: absolute; left: 320px; top: 0px;width: 109px; height: 150px;box-shadow: 3px 3px 7px #111;border: 1px solid #999;border-radius:5px;background-color:#ddd;padding:0px 0px 0px 10px;line-height:19px;" align="left">
+        <span class="Verdana100FFFFFFt" style="width:60px;">Strength:</span>   <input name="str" id="str" class="Verdana100FFFFFFt" style="width:9px;height:15px;position:relative;left:2px;border: none;background-color:#ddd;" value="1" readonly></input> <span id="strb" class="Verdanad" style="position:relative;left:2px;">-1</span><br/> 
+        <span class="Verdana100FFFFFFt" style="width:60px;">Intellect:</span>  <input name="int" id="int" class="Verdana100FFFFFFt" style="width:9px;height:15px;position:relative;left:5px;border: none;background-color:#ddd;" value="1" readonly></input> <span id="intb" class="Verdanab" style="position:relative;left:5px;">+2</span><br/>
+        <span class="Verdana100FFFFFFt" style="width:60px;">Dexterity:</span>  <input name="dex" id="dex" class="Verdana100FFFFFFt" style="width:9px;height:15px;position:relative;left:0px;border: none;background-color:#ddd;" value="1" readonly></input> <span id="dexb" class="Verdanab" style="position:relative;left:0px;"></span><br/>
+        <span class="Verdana100FFFFFFt" style="width:60px;">Wisdom:</span>     <input name="wis" id="wis" class="Verdana100FFFFFFt" style="width:9px;height:15px;position:relative;left:10px;border: none;background-color:#ddd;" value="1" readonly></input> <span id="wisb" class="Verdanab" style="position:relative;left:10px;"></span><br/>
+        <span class="Verdana100FFFFFFt" style="width:60px;">Stamina:</span>    <input name="sta" id="sta" class="Verdana100FFFFFFt" style="width:9px;height:15px;position:relative;left:7px;border: none;background-color:#ddd;" value="1" readonly></input> <span id="stab" class="Verdanad" style="position:relative;left:7px;">-1</span><br/>
+        <span class="Verdana100FFFFFFt" style="width:60px;">Luck:</span>       <input name="luk" id="luk" class="Verdana100FFFFFFt" style="width:9px;height:15px;position:relative;left:30px;border: none;background-color:#ddd;" value="1" readonly></input> <span id="lukb" class="Verdanab" style="position:relative;left:30px;">+1</span><br/> 
+        <a onclick="roll();" class="Verdana80FFFFFFt" style="cursor: pointer;position:relative;top:7px;left:54%;border:solid 1px #888;background-color:#aaa"><image src="http://s3.amazonaws.com/gcv4/files/misc/pixel_dice.gif" class="Verdana80FFFFFFt" value="Re-roll" style="width:18px;height:18px;">Roll!</image></a>
+   </div>  
+<div id="ldhesubmit" style="position: absolute; left: 230px; top: 410px;" align="left">
+<input type="submit" id="submit" name="submit" style="width: 215px; height: 73px;box-shadow: 3px 3px 7px #111;border: 1px solid #999;border-radius:5px;background-color:#bbb;" value="Create"></div>
+</form>
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>View Document</title>
+<!-- Created with an unregistered copy of Dynamic HTML WYSIWYG Editor -->
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+<meta http-equiv="Content-Style-Type" content="text/css">
+<link rel="stylesheet" type="text/css" href="http://gcv4.s3.amazonaws.com/files/style/viewdoc.css">
+<link rel="stylesheet" type="text/css" href="http://gcv4.s3.amazonaws.com/files/style/docs.css">
+<script type="text/javascript" src="http://gcv4.s3.amazonaws.com/files/script/jquery-1.4.2.js"></script>
+<script type="text/javascript" src="http://gcv4.s3.amazonaws.com/files/script/jquery.colorbox-min.js"></script>
+<script language="javascript" type="text/javascript">
+function end_session() {parent.jQuery("dBox").colorbox.close();return false;}
+function get_back() {parent.jQuery.fn.colorbox({width:"350", height:"320", iframe:true, href:'/index/cpanel/3/'});return false;}
+<!--
+var isNS=document.layers?true:false;
+var isIE=(document.all!=null)||(navigator.userAgent.indexOf('MSIE')!=-1);
+var isDom2=document.getElementById;
+var fVers=parseFloat(navigator.appVersion);
+if (!isDom2 && ((isNS && fVers<4)||(isIE && fVers<4)))
+    alert("Your browser is very old. Please upgrade it if you want to see this page correctly.");
+
+//-->
+</script>
+<script language="javascript" type="text/javascript" src="http://gcv4.s3.amazonaws.com/files/script/dhwe5x.js"></script>
+
+</head>
+<body text="#000000" bgcolor="#F7F3CA" link="#392820" alink="#D5442B" vlink="#764F49">
+<div id="ldheHtml1" style="position: absolute; left: 5px; top: 1px; width: 550px; height: 383px;" align="left">
+        <div name="divform">
+            <form action="/index/thebook/" method="POST" target="_parent">
+            <p>krestis fellion maulin werosum eneid vi ulasim kamas mera
+            unaga mana valasa peristoris kanta venimo ceoridan laban nes taraki vetsi</p><b>What:</b>
+                <select id="what" name="what" style="width: 134px;">
+                    <option value="go" selected>Go To</option>
+                    <option value="tel">Teleport</option>
+                    <option value="kil" selected>Kill</option>
+                    <option value="res">Resurrect</option>
+                    <option value="cur">Curse</option>
+                    <option value="cre">Create</option>
+                </select>
+            <p>vitali peon vasas mero indesi mi un kala varasi pesson</p>
+            <b>Who:</b>
+                <select id="who" name="who" style="width: 134px;">
+                    {%for e in ccc %}
+                    <option value="{{e.id}}">{{e.name}}</option>
+                    {%endfor%}
+                </select>
+                <p>sial kan naredi vemi werdi nagaki tesus ined cest ur kalipar
+                nerit mastin merit melor</p>
+            <b>Where:</b>
+                <select id="where" name="where" style="width: 134px;">
+                    {%for e in ppp %}
+                    <option value="{{e.id}}">{{e.name}}</option>
+                    {%endfor%}
+                </select>
+                <input type="submit" value="Perform">
+            </form>
+            <p>saldari unam melikor men insatis velip purodan andari lamar</p>
+        </div>
+{%if ground%}
+<div id="ldheLabel2" style="position: absolute; left: 5px; bottom: 0px; width: 51px; height: 24px; text-align: justify;" align="left">
+<a href="/index/item/take/{{id}}/hand/"><span class="verdana190FFFFFFt">Take</span></a></div>
+<div id="ldheLabel3" style="position: absolute; right: 5px; bottom: 0px; width: 51px; height: 24px; text-align: justify;" align="left">
+<a href="" onclick="end_session();"><span class="verdana190FFFFFFt">Leave</span></a></div>
+{%else%}
+<div id="ldheLabel3" style="position: absolute; left: 248px; top: 400px; width: 51px; height: 24px; text-align: justify;" align="left">
+<a href="" onclick="get_back();"><span class="verdana190FFFFFFt">Close</span></a></div>
+{%endif%}
+
+</body>
+</html>

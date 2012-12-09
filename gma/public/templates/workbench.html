@@ -1,0 +1,69 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title></title>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="Content-Style-Type" content="text/css">
+
+<style>
+
+option{
+  font-weight: bold;
+  color: #9a3000;
+}
+
+optgroup{
+  font-size: 12px;
+  font-weight: normal;
+}
+
+</style>
+
+<script language="javascript" type="text/javascript">
+<!--
+var isNS=document.layers?true:false;
+var isIE=(document.all!=null)||(navigator.userAgent.indexOf('MSIE')!=-1);
+var isDom2=document.getElementById;
+var fVers=parseFloat(navigator.appVersion);
+if (!isDom2 && ((isNS && fVers<4)||(isIE && fVers<4)))
+    alert("Your browser is very old. Please upgrade it if you want to see this page correctly.");
+
+//-->
+
+var selected = "";
+</script>
+<script language="javascript" type="text/javascript" src="http://gcv4.s3.amazonaws.com/files/script/npcinter.js"></script>
+<script language="javascript" type="text/javascript" src="http://gcv4.s3.amazonaws.com/files/script/prototype.js"></script>
+
+</head>
+<body text="#000000" bgcolor="#FFFFFF" link="#0000FF" alink="#FF0000" vlink="#800080">
+<div id="wb_Form2" style="position:absolute;background-color:#F7F9FC;left:10px;top:20px;width:35px;height:200px;z-index:13">
+<form name="Form2" method="post" action="/index/bench/action/" id="Form2">
+    <div style="position:absolute;left:3px;top:10px;width:350px;height:160px;border:1px #C0C0C0 solid;z-index:2">
+        <select id="inventory" name="inventory" multiple size="11"  style="position:absolute;left:0px;top:0px;width:100%;height:100%;border-width:0px;font-family:Courier New;font-size:13px;">
+            {%for item in blueprints%}
+				<option value="{{item.id}}" onclick="document.getElementById('preimg').src='/index/item/{{item.blueprint.item.name}}.gif';document.getElementById('prename').innerHTML='{{item.blueprint.item.name}}';">{{item.get_name}}</option>:
+                {% for k,v in item.blueprint.get_materials%}
+                    {% if k != "null" %}
+                        <optgroup label="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└{{v}}x {{k}}"></optgroup>
+                    {%endif%}
+                {%endfor%}
+            {%empty%}
+                <option value="-1" disabled>Empty</option>
+            {%endfor%}
+        </select>
+    </div>
+    
+    <div style="position:absolute;left:400px;top:30px;width:32px;height:32px;border:1px #C0C0C0 solid;text-align: center;word-wrap: normal;">
+        <img id="preimg" width="32" height="32" src="/index/files/item/blank.gif"></img>
+        <span style="width:150px; " id="prename"></span>
+    </div>
+    
+    <input type="submit" id="benjamin" name="benjamin" value="Craft" style="position:absolute;left:3px;top:175px;width:50px;height:25px;font-family:Arial;font-size:11px;z-index:4"></input> 
+    <input type="submit" id="benjamin" name="benjamin" value="Close" style="position:absolute;left:315px;top:175px;width:40px;height:25px;font-family:Arial;font-size:11px;z-index:5"></input>
+    
+</form>
+</div>
+</body>
+</html>

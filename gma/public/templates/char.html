@@ -1,0 +1,172 @@
+﻿<!doctype html> 
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+{%load arithmetic%}
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Character Panel</title>
+<meta http-equiv="Content-Style-Type" content="text/css">
+<link rel="stylesheet" type="text/css" href="http://gcv4.s3.amazonaws.com/files/style/char.css">
+<style> 
+    body {
+        font-family: Verdana;
+        font-size: 10px;
+        height:200px;
+    }
+    #tooltip{
+        position:absolute;
+        border:1px solid #333;
+        background:#f7f5d1;
+        padding:2px 5px;
+        color:#333;
+        display:none;
+	}
+    
+    span.red{
+        color: #ff0000;
+    }
+    span.blue{
+        color: #0000ff;
+    }
+    span.green{
+        color: #00ff00;
+    }
+</style>
+<script language="javascript" type="text/javascript" src="http://gcv4.s3.amazonaws.com/files/script/char.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.js"></script>
+<script type="text/javascript" src="http://gcv4.s3.amazonaws.com/files/script/simpletip.js"></script>
+<script language="javascript">
+//jQuery.noConflict();
+
+function status(){
+ $.ajax({
+  url: '/index/getstatus/',
+  method: 'get',
+  success: function(d){ $('status').html(d.responseText);
+}});
+}
+
+function take_off(id,type){
+    $.ajax({url:'/index/item/take/'+id+'/onme/',method:'get'});
+    char_div = document.getElementById("ldhePicture1");
+	type_div = document.getElementById(type+"_div");
+	type_img = document.getElementById(type);
+	char_div.removeChild(type_img);
+	$(type_div).mouseleave();
+	char_div.removeChild(type_div);	
+};
+
+window.onload = function(){
+    setInterval('status()',10000);
+}
+</script>
+
+
+            
+
+</head>
+<body text="#000000" bgcolor="#FFFFFF" link="#7C2900" alink="#822B00" vlink="#660000">
+
+<div id="all" style="position: absolute; left: -3px; top: -30px;height:100%;" align="left">
+
+<div id="ldhePicture1" style="position: absolute; left: 26px; top: 66px;" align="left">
+
+{%ifnotequal cape None%} 
+<img id="ldhecape" style="position: absolute; left: 0px; top: 0px;" src="http://gcv4.s3.amazonaws.com/files/char/{{race}}/{{gender}}/{{cape.name}}.gif" border="0" alt="">
+<div id="ldhecape_div" onclick="take_off({{cape.id}},'ldhecape');return false;" class="tooltip" title="{{cape.get_name}}<br/>DP: {{cape.DP|percent:cape.a_maxdp}}%<br/>DT: {{cape.power}}<br/>Value:{{cape.value}}" style="position:absolute; left:4px; top:39px; width:55px; height:60px; background-color:#31111; z-index:990;" align="left"></div>
+{%endifnotequal%}
+
+<img id="Picture1" name="Picture1" src="http://gcv4.s3.amazonaws.com/files/char/{{race}}/{{gender}}/char.gif"  border="0" alt="">
+
+{%ifnotequal pants None%} 
+<div id="ldhepants_div" onclick="take_off({{pants.id}},'ldhepants');return false;" class="tooltip" title="{{pants.get_name}}<br/>DP: {{pants.DP|percent:pants.a_maxdp}}%<br/>DT: {{pants.power}}<br/>Value:{{pants.value}}" style="position:absolute; left:13px; top:69px; width:32px; height:38px; background-color:#31111; z-index:990;" align="left"></div>
+<img id="ldhepants" style="position: absolute; left: 0px; top: 0px;" src="http://gcv4.s3.amazonaws.com/files/char/{{race}}/{{gender}}/{{pants.name}}.gif" border="0" alt="">
+{%endifnotequal%}
+
+{%ifnotequal boots None%} 
+<div id="ldheboots_div" onclick="take_off({{boots.id}},'ldheboots');return false;" class="tooltip" title="{{boots.get_name}}<br/>DP: {{boots.DP|percent:boots.a_maxdp}}%<br/>DT: {{boots.power}}<br/>Value:{{boots.value}}" style="position:absolute; left:13px; top:88px; width:32px; height:20px; background-color:#31111; z-index:990;" align="left"></div>
+<img id="ldheboots" style="position: absolute; left: 0px; top: 0px;" src="http://gcv4.s3.amazonaws.com/files/char/{{race}}/{{gender}}/{{boots.name}}.gif" border="0" alt="">
+{%endifnotequal%}
+
+{%ifnotequal greaves None%} 
+<div id="ldhegreaves_div" onclick="take_off({{greaves.id}},'ldhegreaves');return false;" class="tooltip" title="{{greaves.get_name}}<br/>DP: {{greaves.DP|percent:greaves.a_maxdp}}%<br/>DT: {{greaves.power}}<br/>Value:{{greaves.value}}" style="position:absolute; left:13px; top:69px; width:32px; height:38px; background-color:#31111; z-index:990;" align="left"></div>
+<img id="ldhegreaves" style="position: absolute; left: 0px; top: 0px;" src="http://gcv4.s3.amazonaws.com/files/char/{{race}}/{{gender}}/{{greaves.name}}.gif" border="0" alt="">
+{%endifnotequal%}
+
+{%ifnotequal shirt None%}
+<div id="ldhetorso_div" onclick="take_off({{shirt.id}},'ldhetorso');return false;" class="tooltip" title="{{shirt.get_name}}<br/>DP: {{shirt.DP|percent:shirt.a_maxdp}}%<br/>DT: {{shirt.power}}<br/>Value:{{shirt.value}}" style="position: absolute; left:4px; top:40px; width:45px; height:47px; z-index:990;" align="left"></div>
+<img id="ldhetorso" style="position: absolute; left: 0px; top: 0px;" src="http://gcv4.s3.amazonaws.com/files/char/{{race}}/{{gender}}/{{shirt.name}}.gif" border="0" alt="">
+{%endifnotequal%}
+
+{%ifnotequal armor None%}
+<div id="ldhearmor_div" onclick="take_off({{armor.id}},'ldhearmor');return false;" class="tooltip" title="{{armor.get_name}}<br/>DP: {{armor.DP|percent:armor.a_maxdp}}%<br/>DT: {{armor.power}}<br/>Value:{{armor.value}}" style="position: absolute; left:7px; top:40px; width:35px; height:40px; z-index:990;" align="left"></div>
+<img id="ldhearmor" style="position: absolute; left: 0px; top: 0px;" src="http://gcv4.s3.amazonaws.com/files/char/{{race}}/{{gender}}/{{armor.name}}.gif" border="0" alt="">
+{%endifnotequal%}
+
+<img id="ldheboots" style="position: absolute; left: 0px; top: 0px;" src="http://gcv4.s3.amazonaws.com/files/char/{{race}}/{{gender}}/appereance/f{{face}}.gif" border="0" alt="">
+
+{%ifnotequal pauldrons None%}
+<div id="ldheshoulder_div" onclick="take_off({{pauldrons.id}},'ldheshoulder');return false;" class="tooltip" title="{{pauldrons.get_name}}<br/>DP: {{pauldrons.DP|percent:pauldrons.a_maxdp}}%<br/>DT: {{pauldrons.power}}<br/>Value:{{pauldrons.value}}" style="position: absolute; left:4px; top:40px; width:45px; height:23px; z-index:990;" align="left"></div>
+<img id="ldheshoulder" style="position: absolute; left: 0px; top: 0px;" src="http://gcv4.s3.amazonaws.com/files/char/{{race}}/{{gender}}/{{pauldrons.name}}.gif" border="0" alt="">
+{%endifnotequal%}
+
+{%ifnotequal hat None%}
+<div id="ldhecap_div" onclick="take_off({{hat.id}},'ldhecap');return false;" class="tooltip" title="{{hat.get_name}}<br/>DP: {{hat.DP|percent:hat.a_maxdp}}%<br/>DT: {{hat.power}}<br/>Value:{{hat.value}}" style="position: absolute; left: 11px; top: 4px; width:36px; height:32px; z-index:990;" align="left"></div>
+<img id="ldhecap" style="position: absolute; left: 0px; top: 0px;" src="http://gcv4.s3.amazonaws.com/files/char/{{race}}/{{gender}}/{{hat.name}}.gif" border="0" alt="">
+{%else%}
+<img id="ldhehair" style="position: absolute; left: 0px; top: 0px;" src="http://gcv4.s3.amazonaws.com/files/char/{{race}}/{{gender}}/appereance/h{{hair}}.gif" border="0" alt="">
+{%endifnotequal%} 
+
+<img id="ldheboots" style="position: absolute; left: 0px; top: 0px;" src="http://gcv4.s3.amazonaws.com/files/char/{{race}}/{{gender}}/appereance/b{{beard}}.gif" border="0" alt="">
+
+{%ifnotequal gloves None%} 
+<div id="ldhegloves_div" onclick="take_off({{gloves.id}},'ldhegloves');return false;" class="tooltip" title="{{gloves.get_name}}<br/>DP: {{gloves.DP|percent:gloves.a_maxdp}}%<br/>DT: {{gloves.power}}<br/>Value:{{gloves.value}}" style="position:absolute; left:4px; top:60px; width:42px; height:20px; background-color:#31111; z-index:990;" align="left"></div>
+<img id="ldhegloves" style="position: absolute; left: 0px; top: 0px;" src="http://gcv4.s3.amazonaws.com/files/char/{{race}}/{{gender}}/{{gloves.name}}.gif" border="0" alt="">
+{%endifnotequal%}
+
+{%ifnotequal weapon None%}
+<div id="handel_div" onclick="take_off({{weapon.id}},'handel');return false;" class="tooltip" title="{{weapon.get_name}}<br/>DP: {{weapon.DP|percent:weapon.a_maxdp}}%<br/>DMG: {{weapon.power}}<br/>Value:{{weapon.value}}" style="position: absolute; left: 20px; top: 58px; width:32px; height:24px; z-index:990;" align="left"></div>
+<img id="handel" style="position: absolute; left: 0px; top: 0px;" src="http://gcv4.s3.amazonaws.com/files/char/{{race}}/{{gender}}/{% ifequal weapon.category 'key'%}key{%else%}{{weapon.name}}{%endifequal%}.gif" border="0" alt="">
+{%endifnotequal%}
+
+</div>
+
+<div id="ldheLabel2" style="position: absolute; left: 3px; top: 34px; width: 245px; height: 42px; text-align: justify;" align="left">
+<span class="verdana100FFFFFFt">{{name}},</span><span class="verdana80FFFFFFt"> a level {{level}} {%ifequal gender "m"%}male{%else%}female{%endifequal%} {{race}}.</span><br/>
+</div>
+
+<div id="ldheLabel2" style="position: absolute; left: 128px; top: 200px; width: 145px; height: 42px; text-align: justify;" align="left">
+<span style="font-weight:bold;font-family:Verdana;font-size:12px;">action:</span><span style="color:#2565f0;font-family:Verdana;font-size:12px;"> {{action}}</span>
+</div>
+
+
+<div id="status" style="position: absolute; left: 8px; top: 182px; width: 110px; height: 32px; text-align: justify;" align="left">
+<span class="verdana100FFFFFFtb">HP: </span><span class="red">{{HP}}/{{maxHP}}</span><br/>
+<span class="verdana100FFFFFFtb">MP: </span><span class="blue">{{MP}}/{{maxMP}}</span><br/>
+<span class="verdana100FFFFFFtb">FP: </span><span class="green">{{FP}}/{{maxFP}}</span><br/>
+</div>
+
+<div id="ldheTable1" style="position: absolute; left: 125px; top: 65px;" align="left">
+
+<table width="171" border="0" cellspacing="1" cellpadding="2">
+<tr>
+<td width="62" height="15" align="left" valign="middle"><span class="verdana880FFFFFFFFtb">str:</span></td>
+<td width="106" height="15" align="left" valign="middle"><span class="verdana80FFFFFFti">{{str}}</span></td></tr>
+<tr>
+<td width="62" height="16" align="left" valign="middle"><span class="verdana880FFFFFFFFtb">dex:</span></td>
+<td width="106" height="16" align="left" valign="middle"><span class="verdana80FFFFFFti">{{dex}}</span><span class="verdana80FFFFFFtb"><br></span></td></tr>
+<tr>
+<td width="62" height="16" align="left" valign="middle"><span class="verdana880FFFFFFFFtb">int:</span></td>
+<td width="106" height="16" align="left" valign="middle"><span class="verdana80FFFFFFti">{{int}}</span><span class="verdana80FFFFFFtb"><br></span></td></tr>
+<tr>
+<td width="62" height="16" align="left" valign="middle"><span class="verdana880FFFFFFFFtb">sta:</span></td>
+<td width="106" height="16" align="left" valign="middle"><span class="verdana80FFFFFFti">{{sta}}</span></td></tr>
+<tr>
+<td width="62" height="16" align="left" valign="middle"><span class="verdana880FFFFFFFFtb">wis:</span></td>
+<td width="106" height="16" align="left" valign="middle"><span class="verdana80FFFFFFti">{{wis}}</span><span class="verdana80FFFFFFtb"><br></span></td></tr>
+<tr>
+<td width="62" height="16" align="left" valign="middle"><span class="verdana880FFFFFFFFtb">luk:</span></td>
+<td width="106" height="16" align="left" valign="middle"><span class="verdana80FFFFFFti">{{luk}}</span></td></tr></table></div>
+
+</div>
+</body>
+</html>

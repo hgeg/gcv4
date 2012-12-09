@@ -1,0 +1,29 @@
+<!doctype html>
+<html>
+    <head>
+        <link href='http://fonts.googleapis.com/css?family=Dr+Sugiyama&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+        <title>Write a new Document</title>
+        <style>
+          div:hover {
+            border: 1px dashed #42413a;
+          }
+        </style>
+        <script>
+          function translate() {
+            document.getElementById('mainContent').innerText = document.getElementById('visibleContent').innerText;
+            return true;
+          }
+        </script>
+    </head>
+    <body style="font-family: Verdana; color:#0a0a0a; font-size:12px; background-color:#f3fdc4;">
+        <h3 align="center">New Document</h3>
+        <form action="/index/savedoc/{{id}}/" method="post" onsubmit="return translate();">
+            <span>Title: </span> <br/>
+                <input name="title" type="text" size="60"></input>
+            <input type="submit" value="Save"></input> <br/>    
+            <span>Body: </span> <br/>
+                <div id="visibleContent" style="font-family:'Dr Sugiyama', cursive; font-size:18px; font-weight:400; width:100%; height:280px; white-space:pre-wrap;word-wrap:break-word;" contenteditable="true"></div>  
+            <textarea name="body" id="mainContent" rows="18" cols="62" style="display:none"></textarea> <br/>
+        </form>
+    </body>
+</html>

@@ -1,0 +1,74 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title></title>
+<!-- Created with an unregistered copy of Dynamic HTML WYSIWYG Editor -->
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+<meta http-equiv="Content-Style-Type" content="text/css">
+
+<script language="javascript" type="text/javascript">
+<!--
+var isNS=document.layers?true:false;
+var isIE=(document.all!=null)||(navigator.userAgent.indexOf('MSIE')!=-1);
+var isDom2=document.getElementById;
+var fVers=parseFloat(navigator.appVersion);
+if (!isDom2 && ((isNS && fVers<4)||(isIE && fVers<4)))
+    alert("Your browser is very old. Please upgrade it if you want to see this page correctly.");
+
+//-->
+</script>
+<script language="javascript" type="text/javascript" src="http://gcv4.s3.amazonaws.com/files/script/prototype.js"></script>
+<script language="javascript" type="text/javascript" src="http://gcv4.s3.amazonaws.com/files/script/npcinter.js"></script>
+
+<script language="javascript">
+
+</script>
+
+</head>
+<body text="#000000" bgcolor="#FFFFFF" link="#0000FF" alink="#FF0000" vlink="#800080">
+<textarea id="msg_box" style="position:absolute;left:12px;top:18px;width:595px;height:175px;border:1px #C0C0C0 solid;font-family:Courier New;font-size:13px;z-index:10" rows="9" cols="95" readonly="readonly">{{messages}}</textarea>
+<form id="talkBox" style="position: absolute; left: 610px; top: 18px;" method="POST" action="/index/send_msg/">
+<select id="msg_content" name="msg_content" style="width: 105px; height: 175px;" size="10" ondblclick="$('talkBox').request({onSuccess:function(t){$('msg_box').update(t.responseText);}});">
+{%for topic in topics%}
+<option value="{{topic.id}}">{{topic.title}}</option>
+{%endfor%}
+<input name="msg_submit" value="npcSubmit" style="display: none;"/>
+</select></form>
+
+
+<div id="wb_Form2" style="position:absolute;background-color:#F7F9FC;left:10px;top:230px;width:696px;height:200px;z-index:13">
+<form name="Form2" method="post" action="/index/interact/exchange:npc/" id="Form2">
+<div id="finance" style="position: relative; left: 3px; top: -10px;width:200" align="left">
+    <input type="button" onclick="parent.jQuery.fn.colorbox({width:'350', height:'320', iframe:true, href:'/index/cpanel/3/',scrolling:false});" style="cursor:default;font-family:Verdana;font-size:10px;" value="Inventory"></input> 
+</div>
+<div style="position:absolute;left:3px;top:10px;width:255px;height:181px;border:1px #C0C0C0 solid;z-index:2">
+    <select id="inventory" name="inventory" multiple size="11"  style="position:absolute;left:0px;top:0px;width:100%;height:100%;border-width:0px;font-family:Courier New;font-size:13px;">
+    {%for item in inventory%}
+    <option value="{{item.id}}">{{item.get_name}}</option>
+    {%endfor%}
+</select>
+</div>
+<input type="text" id="amount" name="amount" placeholder="amount" {% if s1 %}disabled="disabled"{% endif %} style="position:absolute;left:325px;top:10px;width:72px;height:16px;font-family:Verdana;font-size:11px;z-index:5">
+<input type="submit" id="benjamin" name="benjamin" value="Give"  style="position:absolute;left:325px;top:30px;width:72px;height:25px;font-family:Arial;font-size:13px;z-index:4">
+<input type="submit" id="benjamin" name="benjamin" value="Take" style="position:absolute;left:325px;top:60px;width:72px;height:25px;font-family:Arial;font-size:13px;z-index:5">
+<input type="submit" id="benjamin" name="benjamin" value="Interrupt"  style="position:absolute;left:325px;top:100px;width:72px;height:25px;font-family:Arial;font-size:13px;z-index:5">
+<div style="position:absolute;left:300px;top:135px;">
+	<span style="font-family: Verdana;font-size:12;">Disposition:</span><span style="font-family: Verdana;font-size:12;color:#2d45f5">{{disposition}}</span><br/>
+	<span style="font-family: Verdana, Helvetica, Arial;font-size:12">Balance:</span>
+	<span  id="Balance"style="font-family: Verdana, Helvetica, Arial;color:{%if balance < 0%}red{%else%}#10f510{%endif%};font-size:12;">{{balance}}</span>&nbsp;
+    <a href="#" onclick="new Ajax.Updater('Balance', '/index/interact/tweak/add/');" style="cursor:default;text-decoration: none; font-family: Monospace;font-size:13px;color:#ffffff;background-color:00ff00;font-weight: bold;">+</a>
+    <a href="#" onclick="new Ajax.Updater('Balance', '/index/interact/tweak/sub/');" style="cursor:default;text-decoration: none; font-family: Monospace;font-size:13px;color:#ffffff;background-color:ff0000;font-weight: bold;">-</a>
+    <a href="#" onclick="new Ajax.Updater('Balance', '/index/interact/tweak/reset/');" style="cursor:default;text-decoration: none; font-family: Monospace;font-size:13px;color:#ffffff;background-color:ff0000;font-weight: bold;">0</a>
+</div>
+<div style="position:absolute;left:455px;top:10px;width:239px;height:181px;border:1px #C0C0C0 solid;z-index:6">
+<select name="otherbox" id="otherbox" size="11" style="position:absolute;left:0px;top:0px;width:100%;height:100%;border-width:0px;font-family:Courier New;font-size:13px;">
+{%for item in otherbox%}
+<option value="{{item.id}}">{{item.get_name}}</option>
+{%endfor%}
+</select>
+</div>
+</form>
+</div>
+</body>
+</html>

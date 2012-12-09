@@ -1,0 +1,106 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.7	//
+Attack	models.py	/^class Attack(models.Model):$/;"	c
+Character	models.py	/^class Character(GenericObject):$/;"	c
+ContainerBox	models.py	/^class ContainerBox(GenericObject):$/;"	c
+Container	models.py	/^class Container(GenericObject):$/;"	c
+Gate	models.py	/^class Gate(GenericObject):$/;"	c
+GenericObject	models.py	/^class GenericObject(models.Model): $/;"	c
+InteractionBox	models.py	/^class InteractionBox(GenericObject):$/;"	c
+Item	models.py	/^class Item(GenericObject):$/;"	c
+Key	models.py	/^class Key(Item):$/;"	c
+MoneyBag	models.py	/^class MoneyBag(Item):$/;"	c
+NPC	models.py	/^class NPC(models.Model):$/;"	c
+Place	models.py	/^class Place(models.Model):$/;"	c
+Skill	models.py	/^class Skill(models.Model):$/;"	c
+Spell	models.py	/^class Spell(models.Model):$/;"	c
+Topic	models.py	/^class Topic(models.Model):$/;"	c
+__unicode__	models.py	/^    def __unicode__(self):$/;"	m	class:InteractionBox	file:
+add_existing_topic	models.py	/^    def add_existing_topic(self,topic_id):$/;"	m	class:NPC
+add_topic	views.py	/^def add_topic(request):$/;"	f
+add_topic	models.py	/^    def add_topic(self,req,rsp,ttl):$/;"	m	class:NPC
+add	models.py	/^    def add(self,v=0,o=0):#give$/;"	m	class:MoneyBag
+alogin	views.py	/^def alogin(request):$/;"	f
+aregister	views.py	/^def aregister(request):$/;"	f
+attack_action	views.py	/^def  attack_action(request,action,s_id):$/;"	f
+attack_box	views.py	/^def attack_box(request):$/;"	f
+attack_to	models.py	/^    def attack_to(self,opponent,weapon=None,spell=None):$/;"	m	class:Character
+attack	views.py	/^def attack(request,first,other):$/;"	f
+attack	models.py	/^    def attack(self,char,opp):$/;"	m	class:Attack
+char_panel	views.py	/^def char_panel(request):$/;"	f
+construction	views.py	/^def construction(request):$/;"	f
+create_char	views.py	/^def create_char(request):$/;"	f
+cs484	views.py	/^def cs484(request):$/;"	f
+decompose	models.py	/^    def decompose(self):$/;"	m	class:ContainerBox
+decompose	models.py	/^    def decompose(self):$/;"	m	class:InteractionBox
+edit_cell	views.py	/^def edit_cell(request):$/;"	f
+edit_item	views.py	/^def edit_item(request):$/;"	f
+effect	models.py	/^    def effect(self):$/;"	m	class:Item
+effect	models.py	/^    def effect(self,target):$/;"	m	class:Spell
+end_turn	models.py	/^    def end_turn(self):$/;"	m	class:Character
+enter	views.py	/^def enter(request,g_id):$/;"	f
+exchange_signal	views.py	/^def exchange_signal(request):$/;"	f
+get_msg_list	views.py	/^def get_msg_list(request):$/;"	f
+getlist	views.py	/^def getlist(request,p_id):$/;"	f
+gettime	views.py	/^def gettime():    $/;"	f
+index_re	views.py	/^def index_re(request):$/;"	f
+init_world	views.py	/^def init_world(request):$/;"	f
+init	models.py	/^    def init(request,name='NPC',race='NPC',sex='N'):$/;"	m	class:Character
+insert	models.py	/^    def insert(self,other,n,i,x,y,w,h,xi,yi,wi,hi):$/;"	m	class:Place
+interact_action	views.py	/^def interact_action(request):$/;"	f
+interact_return	views.py	/^def interact_return(request):$/;"	f
+interact	views.py	/^def interact(request,first,other):$/;"	f
+interact	models.py	/^    def interact(self,contact):$/;"	m	class:Character
+interrupt	views.py	/^def interrupt(request):$/;"	f
+interrupt	models.py	/^    def interrupt(self):$/;"	m	class:Character
+item_action	views.py	/^def item_action(request):$/;"	f
+learn_spell	models.py	/^    def learn_spell(self,spell):$/;"	m	class:Character
+level_check	models.py	/^    def level_check(self):$/;"	m	class:Skill
+level_up	models.py	/^    def level_up(self):$/;"	m	class:Character
+lock	views.py	/^def lock(request,g_id):$/;"	f
+login	views.py	/^def login(request):$/;"	f
+logout	views.py	/^def logout(request):$/;"	f
+main_page	views.py	/^def main_page(request):$/;"	f
+merge	models.py	/^    def merge(self,other):#add$/;"	m	class:MoneyBag
+npc_interact_action	views.py	/^def npc_interact_action(request):$/;"	f
+open_chest	views.py	/^def open_chest(request,c_id):$/;"	f
+operate_char	models.py	/^    def operate_char(self):$/;"	m	class:NPC
+other_box	views.py	/^def other_box(request):$/;"	f
+panel	views.py	/^def panel(request,tab=1):$/;"	f
+project_page	views.py	/^def project_page(request):$/;"	f
+put_money	views.py	/^def put_money(request):$/;"	f
+receive_effect	models.py	/^    def receive_effect(self,base,effect):$/;"	m	class:Character
+register	views.py	/^def register(request):$/;"	f
+relocate	views.py	/^def relocate(request):$/;"	f
+render_char	views.py	/^def render_char(mychar,e,is_req):$/;"	f
+render	views.py	/^def render(request,cell):$/;"	f
+render	models.py	/^    def render(self,place,mychar_id,mychar_state):$/;"	m	class:GenericObject
+repair	models.py	/^    def repair(self):$/;"	m	class:Item
+return_all	models.py	/^    def return_all(self):$/;"	m	class:Character
+return_money	views.py	/^def return_money(request):$/;"	f
+return_skills	models.py	/^    def return_skills(self):$/;"	m	class:Character
+rps_page	views.py	/^def rps_page(request):$/;"	f
+save_cell	views.py	/^def save_cell(request):$/;"	f
+save_char	views.py	/^def save_char(request):$/;"	f
+save_document	views.py	/^def save_document(request,d_id):$/;"	f
+save_item	views.py	/^def save_item(request):$/;"	f
+send_msg	views.py	/^def send_msg(request):$/;"	f
+shout	views.py	/^def shout(request):$/;"	f
+show_inventory	views.py	/^def show_inventory(request):$/;"	f
+skill_panel	views.py	/^def skill_panel(request):$/;"	f
+sub	models.py	/^    def sub(self,v=0,o=0):#take$/;"	m	class:MoneyBag
+sysmsg	views.py	/^def sysmsg(box,msg):$/;"	f
+take_item	views.py	/^def take_item(request,id,proc):$/;"	f
+the_book	views.py	/^def the_book(request):$/;"	f
+total	models.py	/^    def total(self):$/;"	m	class:MoneyBag
+travel	models.py	/^    def travel(self,__place,through=-1):#FIXED: error in travelling while being in an interaction$/;"	m	class:Character
+tweak_balance	views.py	/^def tweak_balance(request,amount):$/;"	f
+use	models.py	/^    def use(self,cofactor=1):$/;"	m	class:Skill
+use	models.py	/^    def use(self,user):$/;"	m	class:Item
+view_document	views.py	/^def view_document(request,d_id,whr):$/;"	f
+view_the_book	views.py	/^def view_the_book(request,d_id,whr):$/;"	f
+write_document	views.py	/^def write_document(request,d_id):$/;"	f
