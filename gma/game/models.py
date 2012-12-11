@@ -492,10 +492,17 @@ class Spell(models.Model):
 
     def parse(self,target,usr):
         s = self.script.replace('\r','')
+        print 'script:',s
         result =''
         exec(s)
+        if usr.id!=target.id: 
+          print 'You casted %s on %s'%(self.name,target.name)
+          usr.notify('You casted %s on yourself'%(self.nam,target.name))
+          target.end_turn()
+        else:
+          print 'You casted %s on yourself'%self.name 
+          usr.notify('You casted %s on yourself'%self.name)
         usr.end_turn()
-        if usr.id!=target.id: target.end_turn()
         return result
 
 #Item class
@@ -938,6 +945,9 @@ class Character(GenericObject):
             self.skills.add(s);
             return s.value
 
+
+    def notify(self,message):
+      prd('notification%d'%self.id,message)
 
     def travel_check(self,__place):
         p1=Place.objects.get(id=self.current_place)

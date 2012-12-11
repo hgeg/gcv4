@@ -181,11 +181,11 @@ urlpatterns = patterns('',
     
     (r'^index/add/topic/$', 'gma.game.views.add_topic') ,
     
-    (r'^index/docsc/(?P<path>.*)$', 'django.views.static.serve', {'document_root': '/home/can/gcv4/gma/public/documents/custom/'}),
+    (r'^index/docsc/(?P<path>.*)$', 'django.views.static.serve', {'document_root': './public/documents/custom/'}),
     
-    (r'^index/docs/(?P<path>.*)$', 'django.views.static.serve', {'document_root': '/home/can/gcv4/gma/public/documents/'}),
+    (r'^index/docs/(?P<path>.*)$', 'django.views.static.serve', {'document_root': './public/documents/'}),
     
-    (r'^index/files/(?P<path>.*)$', 'django.views.static.serve', {'document_root': '/home/can/gcv4/gma/public/templates/files/'}),
+    (r'^index/files/(?P<path>.*)$', 'django.views.static.serve', {'document_root': './public/templates/files/'}),
     
     #(r'^index/docsc/(?P<path>.*)$', 'django.views.static.serve', {'document_root': '/home/gma/www/gma/public/documents/custom/'}),
     

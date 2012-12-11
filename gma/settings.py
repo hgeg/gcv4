@@ -96,7 +96,7 @@ TEMPLATE_DIRS = (
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
     #"/home/gma/www/gma/public/templates/"
-    "/home/can/gcv4/gma/public/templates/"
+    "./public/templates/"
 )
 
 INSTALLED_APPS = (

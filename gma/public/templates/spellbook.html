@@ -23,12 +23,14 @@ font-family: Arial, Tahoma, Helvetica, sans-serif; font-size: 11px; font-weight:
 <div id="all" style="position: absolute; left: -3px; top: -30px;" align="left">
     <form id="Form1" name="Form1" style="position: absolute; left: 0px; top: 0px;" method="POST" action="/index/spell_act/" >
         <div id="ldhespellbook" style="position: absolute; left: 8px; top: 45px;" align="left">
-            <div id="spl_list" name="spellbook" style="width: 280px; height: 190px;" class="invs">
+            <select id="spl_list" name="spellbook" style="width: 280px; height: 190px;overflow-y:auto;" class="invs" multiple>
                 {%for spell in spellbook%}
-                <span style="">&#9679; {{spell.name}}:</span></br>
-                &nbsp;&nbsp;&nbsp;<span style="color:#827abb;font-size:10px">  {{spell.word}}</span></br>
+                <option>
+                <span style="">&#9679; {{spell.name}}:</span>
+                </option>
+                <option disabled> &nbsp;&nbsp;&nbsp;<span style="color:#827abb;font-size:10px">  {{spell.word}}</span></option>
                 {%endfor%}
-            </div>
+            </select>
         </div>
         <img src="http://gcv4.s3.amazonaws.com/files/cpanel/blank.gif" border="0" alt=""></img>
     </form>

@@ -318,8 +318,11 @@ def shout(request):
             myself.counter = datetime.datetime.now() + datetime.timedelta(seconds=6)  
             prd('render%d'%myself.current_place,simplejson.dumps({'action':'shout','id':myself.id,'data':magi}))
         elif ashout =='.*':
+            print "madafaak"
             try:
+                print "zadafaak"
                 attack(request,'s',myself.id,myself.id)
+                print "kadafaak"
             except: return HttpResponse(status=200)
         else:
             myself.shoutbox = ashout
